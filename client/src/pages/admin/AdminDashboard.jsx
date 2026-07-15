@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react'
-import Card from '@/components/atoms/Card'
-import Skeleton from '@/components/atoms/Skeleton'
-import api from '@/utils/axiosInstance'
 import { MdFolderSpecial, MdEvent, MdAssignment, MdMail, MdPeople } from 'react-icons/md'
+import api from '@/utils/axiosInstance'
 
-const widgets = [
-  { key: 'totalProjects',    label: 'Projects',              icon: MdFolderSpecial, color: 'text-primary-500' },
-  { key: 'upcomingEvents',   label: 'Upcoming Events',       icon: MdEvent,         color: 'text-accent-500'  },
-  { key: 'pendingApps',      label: 'Pending Applications',  icon: MdAssignment,    color: 'text-warning'     },
-  { key: 'unreadContacts',   label: 'Unread Contacts',       icon: MdMail,          color: 'text-error'       },
-  { key: 'totalTeamMembers', label: 'Team Members',          icon: MdPeople,        color: 'text-success'     },
+const WIDGETS = [
+  { key:'totalProjects',    label:'Projects',             icon:MdFolderSpecial, color:'#06b6d4',  bg:'rgba(6,182,212,0.08)' },
+  { key:'upcomingEvents',   label:'Upcoming Events',      icon:MdEvent,         color:'#a78bfa',  bg:'rgba(167,139,250,0.08)' },
+  { key:'pendingApps',      label:'Pending Applications', icon:MdAssignment,    color:'#f59e0b',  bg:'rgba(245,158,11,0.08)' },
+  { key:'unreadContacts',   label:'Unread Contacts',      icon:MdMail,          color:'#ef4444',  bg:'rgba(239,68,68,0.08)' },
+  { key:'totalTeamMembers', label:'Team Members',         icon:MdPeople,        color:'#10b981',  bg:'rgba(16,185,129,0.08)' },
 ]
 
 export default function AdminDashboard() {
@@ -18,33 +16,39 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     api.get('/admin/summary')
-      .then((r) => setSummary(r.data))
+      .then(r => setSummary(r.data))
       .catch(() => setSummary({}))
       .finally(() => setLoading(false))
   }, [])
 
   return (
     <div>
-      <h1 className="text-2xl font-heading font-bold text-on-surface mb-6">Dashboard</h1>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-        {widgets.map(({ key, label, icon: Icon, color }) => (
-          <Card key={key} className="p-5">
+      <div style={{ marginBottom:'2rem' }}>
+        <h1 style={{ fontFamily:"'Space Grotesk',sans-serif", fontWeight:800, fontSize:'1.75rem', color:'#f1f5f9', margin:'0 0 0.35rem' }}>Dashboard</h1>
+        <p style={{ color:'#64748b', fontSize:'0.875rem', margin:0 }}>Welcome back — here is a summary of your site.</p>
+      </div>
+
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(200px,1fr))', gap:'1rem' }}>
+        {WIDGETS.map(({ key, label, icon:Icon, color, bg }) => (
+          <div key={key} className="card-glass" style={{ padding:'1.5rem' }}>
             {loading ? (
-              <div className="space-y-3">
-                <Skeleton className="h-8 w-8 rounded-lg" />
-                <Skeleton className="h-7 w-1/2" />
-                <Skeleton className="h-4 w-full" />
+              <div style={{ display:'flex', flexDirection:'column', gap:'0.75rem' }}>
+                <div className="skeleton" style={{ width:'40px', height:'40px', borderRadius:'10px' }} />
+                <div className="skeleton" style={{ width:'60px', height:'32px', borderRadius:'6px' }} />
+                <div className="skeleton" style={{ width:'100%', height:'14px' }} />
               </div>
             ) : (
-              <div>
-                <Icon size={24} className={color} aria-hidden="true" />
-                <div className="text-3xl font-heading font-bold text-on-surface mt-2">
+              <>
+                <div style={{ width:'40px', height:'40px', borderRadius:'10px', background:bg, display:'flex', alignItems:'center', justifyContent:'center', marginBottom:'1rem' }}>
+                  <Icon size={20} style={{ color }} />
+                </div>
+                <div style={{ fontFamily:"'Space Grotesk',sans-serif", fontWeight:800, fontSize:'2rem', color:'#f1f5f9', lineHeight:1, marginBottom:'0.35rem' }}>
                   {summary?.[key] ?? '—'}
                 </div>
-                <div className="text-sm text-neutral-500 mt-1">{label}</div>
-              </div>
+                <div style={{ color:'#64748b', fontSize:'0.8rem', fontWeight:500 }}>{label}</div>
+              </>
             )}
-          </Card>
+          </div>
         ))}
       </div>
     </div>

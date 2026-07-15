@@ -1,41 +1,28 @@
 import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 import PageTransition from '@/components/molecules/PageTransition'
-import Section from '@/components/molecules/Section'
-import Container from '@/components/molecules/Container'
-import SectionHeader from '@/components/molecules/SectionHeader'
-import Card from '@/components/atoms/Card'
-import Button from '@/components/atoms/Button'
-import Modal from '@/components/atoms/Modal'
-import { SkeletonCard } from '@/components/atoms/Skeleton'
 import api from '@/utils/axiosInstance'
 
-function Countdown({ targetDate }) {
-  const [timeLeft, setTimeLeft] = useState({})
+const fade = { initial:{opacity:0,y:24}, whileInView:{opacity:1,y:0}, viewport:{once:true}, transition:{duration:0.4} }
 
+function Countdown({ targetDate }) {
+  const [t, setT] = useState({})
   useEffect(() => {
     const calc = () => {
       const diff = new Date(targetDate) - Date.now()
-      if (diff <= 0) return setTimeLeft({ expired: true })
-      setTimeLeft({
-        days:    Math.floor(diff / 86400000),
-        hours:   Math.floor((diff % 86400000) / 3600000),
-        minutes: Math.floor((diff % 3600000) / 60000),
-        seconds: Math.floor((diff % 60000) / 1000),
-      })
+      if (diff <= 0) return setT({ expired: true })
+      setT({ d: Math.floor(diff/86400000), h: Math.floor((diff%86400000)/3600000), m: Math.floor((diff%3600000)/60000), s: Math.floor((diff%60000)/1000) })
     }
-    calc()
-    const id = setInterval(calc, 1000)
-    return () => clearInterval(id)
+    calc(); const id = setInterval(calc, 1000); return () => clearInterval(id)
   }, [targetDate])
 
-  if (timeLeft.expired) return <span className="text-xs text-neutral-400">Event started</span>
-
+  if (t.expired) return <span style={{ color:'#64748b', fontSize:'0.75rem' }}>Event started</span>
   return (
-    <div className="flex gap-2 text-center">
-      {['days', 'hours', 'minutes', 'seconds'].map((unit) => (
-        <div key={unit} className="bg-primary-50 dark:bg-primary-950 rounded-lg px-2 py-1 min-w-[44px]">
-          <div className="text-lg font-heading font-bold text-primary-600">{timeLeft[unit] ?? 0}</div>
-          <div className="text-[10px] uppercase text-neutral-500">{unit}</div>
+    <div style={{ display:'flex', gap:'0.4rem' }}>
+      {[['d','Days'],['h','Hrs'],['m','Min'],['s','Sec']].map(([k, l]) => (
+        <div key={k} style={{ background:'rgba(0,212,255,0.06)', border:'1px solid rgba(0,212,255,0.15)', borderRadius:'8px', padding:'0.4rem 0.6rem', textAlign:'center', minWidth:'46px' }}>
+          <div style={{ fontFamily:"'Space Grotesk',sans-serif", fontWeight:800, fontSize:'1.1rem', background:'linear-gradient(135deg,#22d3ee,#a78bfa)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>{t[k]??0}</div>
+          <div style={{ fontSize:'0.6rem', color:'#64748b', textTransform:'uppercase', letterSpacing:'0.06em' }}>{l}</div>
         </div>
       ))}
     </div>
@@ -43,60 +30,73 @@ function Countdown({ targetDate }) {
 }
 
 export default function Events() {
-  const [events, setEvents] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const [selectedSpeaker, setSelectedSpeaker] = useState(null)
+  const [events, setEvents]     = useState([])
+  const [loading, setLoading]   = useState(true)
+  const [error, setError]       = useState(null)
+  const [speaker, setSpeaker]   = useState(null)
 
   useEffect(() => {
     api.get('/events')
-      .then((r) => setEvents(r.data.data || r.data))
+      .then(r => setEvents(r.data.data || r.data))
       .catch(() => setError('Failed to load events.'))
       .finally(() => setLoading(false))
   }, [])
 
   return (
     <PageTransition>
-      <Section>
-        <Container>
-          <SectionHeader label="Events" title="What's happening" />
+      <div style={{ background:'#070b11', minHeight:'100vh' }}>
 
-          {loading && (
-            <div className="space-y-6">
-              {Array.from({ length: 3 }).map((_, i) => <SkeletonCard key={i} />)}
-            </div>
-          )}
+        {/* Header */}
+        <section style={{ position:'relative', padding:'7rem 0 3rem', overflow:'hidden' }} className="bg-grid">
+          <div className="orb orb-cyan" style={{ width:'350px', height:'350px', top:'-50px', right:'8%', opacity:0.2 }} />
+          <div className="container-main" style={{ position:'relative', zIndex:1 }}>
+            <motion.div initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.6 }}>
+              <div className="section-label">Events & Competitions</div>
+              <h1 style={{ fontSize:'clamp(2rem,5vw,3rem)', color:'#f1f5f9', marginBottom:'0.75rem' }}>
+                What's <span className="gradient-text">Happening</span>
+              </h1>
+              <p style={{ color:'#94a3b8', maxWidth:'480px', lineHeight:1.75 }}>
+                Workshops, hackathons, and competitions — stay up to date with everything NGND.
+              </p>
+            </motion.div>
+          </div>
+        </section>
 
-          {error && <p className="text-error">{error}</p>}
-
-          {!loading && !error && events.length === 0 && (
-            <p className="text-neutral-500 text-center py-16">No events found.</p>
-          )}
-
-          {!loading && !error && (
-            <div className="space-y-8">
-              {events.map((ev) => (
-                <Card key={ev._id} className="p-6">
-                  <div className="flex flex-col lg:flex-row gap-6">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-3">
-                        {ev.isUpcoming && (
-                          <span className="px-2.5 py-0.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-semibold">
-                            Upcoming
-                          </span>
+        {/* Events list */}
+        <section style={{ padding:'2rem 0 6rem' }}>
+          <div className="container-main">
+            {loading && (
+              <div style={{ display:'flex', flexDirection:'column', gap:'1.25rem' }}>
+                {[1,2,3].map(i => <div key={i} className="skeleton" style={{ height:'140px', borderRadius:'16px' }} />)}
+              </div>
+            )}
+            {error && <p style={{ color:'#ef4444', textAlign:'center', padding:'3rem' }}>{error}</p>}
+            {!loading && !error && events.length === 0 && (
+              <div style={{ textAlign:'center', padding:'5rem 0', color:'#64748b' }}>No events found.</div>
+            )}
+            {!loading && !error && events.map((ev, i) => (
+              <motion.div key={ev._id} {...fade} transition={{ delay: i*0.05 }} style={{ marginBottom:'1.25rem' }}>
+                <div className="card-glass" style={{ padding:'1.75rem' }}>
+                  <div style={{ display:'flex', flexWrap:'wrap', gap:'1.5rem', justifyContent:'space-between' }}>
+                    {/* Left */}
+                    <div style={{ flex:'1', minWidth:'240px' }}>
+                      <div style={{ display:'flex', flexWrap:'wrap', gap:'0.5rem', alignItems:'center', marginBottom:'0.6rem' }}>
+                        {ev.isUpcoming && <span className="badge-green">Upcoming</span>}
+                        {ev.schedule?.[0]?.date && (
+                          <span style={{ color:'#64748b', fontSize:'0.75rem' }}>📅 {ev.schedule[0].date}</span>
                         )}
-                        <h3 className="text-lg font-heading font-semibold">{ev.title}</h3>
                       </div>
-                      <p className="text-neutral-500 text-sm mb-4">{ev.description}</p>
+                      <h2 style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:'1.15rem', fontWeight:700, color:'#e2e8f0', marginBottom:'0.5rem' }}>{ev.title}</h2>
+                      <p style={{ color:'#64748b', fontSize:'0.875rem', lineHeight:1.65, marginBottom:'0.75rem' }}>{ev.description}</p>
 
                       {/* Schedule */}
                       {ev.schedule?.length > 0 && (
-                        <div className="mb-4">
-                          <h4 className="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-2">Schedule</h4>
-                          <ul className="space-y-1">
-                            {ev.schedule.map((s, i) => (
-                              <li key={i} className="text-sm flex gap-3">
-                                <span className="text-neutral-400 shrink-0">{s.date} {s.time}</span>
+                        <div style={{ marginBottom:'0.75rem' }}>
+                          <p style={{ fontSize:'0.7rem', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.1em', color:'#374151', marginBottom:'0.4rem' }}>Schedule</p>
+                          <ul style={{ listStyle:'none', padding:0, margin:0, display:'flex', flexDirection:'column', gap:'0.3rem' }}>
+                            {ev.schedule.map((s, j) => (
+                              <li key={j} style={{ fontSize:'0.8rem', color:'#94a3b8', display:'flex', gap:'0.75rem' }}>
+                                <span style={{ color:'#374151', minWidth:'100px', flexShrink:0 }}>{s.date} {s.time}</span>
                                 <span>{s.activity}</span>
                               </li>
                             ))}
@@ -106,14 +106,17 @@ export default function Events() {
 
                       {/* Speakers */}
                       {ev.speakers?.length > 0 && (
-                        <div className="mb-4">
-                          <h4 className="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-2">Speakers</h4>
-                          <div className="flex flex-wrap gap-2">
-                            {ev.speakers.map((sp, i) => (
-                              <button
-                                key={i}
-                                onClick={() => setSelectedSpeaker(sp)}
-                                className="text-sm text-primary-600 hover:underline"
+                        <div style={{ marginBottom:'0.75rem' }}>
+                          <p style={{ fontSize:'0.7rem', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.1em', color:'#374151', marginBottom:'0.4rem' }}>Speakers</p>
+                          <div style={{ display:'flex', flexWrap:'wrap', gap:'0.5rem' }}>
+                            {ev.speakers.map((sp, j) => (
+                              <button key={j} onClick={() => setSpeaker(sp)} style={{
+                                background:'rgba(0,212,255,0.06)', border:'1px solid rgba(0,212,255,0.2)',
+                                borderRadius:'999px', padding:'0.25rem 0.75rem', fontSize:'0.8rem',
+                                color:'#22d3ee', cursor:'pointer', transition:'all 0.2s',
+                              }}
+                                onMouseEnter={e=>e.currentTarget.style.background='rgba(0,212,255,0.12)'}
+                                onMouseLeave={e=>e.currentTarget.style.background='rgba(0,212,255,0.06)'}
                               >
                                 {sp.name}
                               </button>
@@ -123,42 +126,43 @@ export default function Events() {
                       )}
 
                       {ev.registrationUrl && (
-                        <a href={ev.registrationUrl} target="_blank" rel="noopener noreferrer">
-                          <Button size="sm">Register</Button>
+                        <a href={ev.registrationUrl} target="_blank" rel="noopener noreferrer" className="btn-glow" style={{ fontSize:'0.85rem', padding:'0.45rem 1.1rem' }}>
+                          Register Now
                         </a>
                       )}
                     </div>
 
+                    {/* Countdown */}
                     {ev.isUpcoming && ev.schedule?.[0]?.date && (
-                      <div className="shrink-0">
+                      <div style={{ display:'flex', flexDirection:'column', gap:'0.5rem', justifyContent:'flex-start' }}>
+                        <p style={{ fontSize:'0.7rem', color:'#374151', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.08em', margin:0 }}>Starts in</p>
                         <Countdown targetDate={ev.schedule[0].date} />
                       </div>
                     )}
                   </div>
-                </Card>
-              ))}
-            </div>
-          )}
-        </Container>
-      </Section>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
 
-      <Modal
-        open={!!selectedSpeaker}
-        onClose={() => setSelectedSpeaker(null)}
-        title="Speaker"
-      >
-        {selectedSpeaker && (
-          <div className="flex gap-4">
-            {selectedSpeaker.photo && (
-              <img src={selectedSpeaker.photo} alt={selectedSpeaker.name} className="w-16 h-16 rounded-full object-cover shrink-0" />
-            )}
-            <div>
-              <h3 className="font-heading font-semibold text-on-surface mb-1">{selectedSpeaker.name}</h3>
-              <p className="text-sm text-neutral-500">{selectedSpeaker.bio}</p>
+        {/* Speaker modal */}
+        {speaker && (
+          <div role="dialog" aria-modal="true" onClick={() => setSpeaker(null)}
+            style={{ position:'fixed', inset:0, zIndex:60, background:'rgba(0,0,0,0.8)', backdropFilter:'blur(8px)', display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}>
+            <div onClick={e => e.stopPropagation()} className="card-glass" style={{ maxWidth:'420px', width:'100%', padding:'2rem' }}>
+              <div style={{ display:'flex', gap:'1rem', alignItems:'flex-start' }}>
+                {speaker.photo && <img src={speaker.photo} alt={speaker.name} style={{ width:'60px', height:'60px', borderRadius:'50%', objectFit:'cover', border:'2px solid rgba(0,212,255,0.3)', flexShrink:0 }} />}
+                <div>
+                  <h3 style={{ fontFamily:"'Space Grotesk',sans-serif", fontWeight:700, color:'#e2e8f0', marginBottom:'0.25rem' }}>{speaker.name}</h3>
+                  <p style={{ color:'#64748b', fontSize:'0.875rem', lineHeight:1.65 }}>{speaker.bio}</p>
+                </div>
+              </div>
+              <button onClick={() => setSpeaker(null)} className="btn-outline" style={{ width:'100%', justifyContent:'center', marginTop:'1.5rem', fontSize:'0.875rem' }}>Close</button>
             </div>
           </div>
         )}
-      </Modal>
+      </div>
     </PageTransition>
   )
 }

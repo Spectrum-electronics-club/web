@@ -3,9 +3,9 @@ import AdminSidebar from '@/components/organisms/AdminSidebar'
 
 export default function AdminLayout() {
   return (
-    <div className="flex min-h-screen bg-surface-2 text-on-surface">
+    <div style={{ display:'flex', minHeight:'100vh', background:'#070b11', color:'#e2e8f0' }}>
       <AdminSidebar />
-      <main className="flex-1 p-6 md:p-8 overflow-y-auto">
+      <main style={{ flex:1, padding:'2.5rem', overflowY:'auto', maxWidth:'100%' }}>
         <Outlet />
       </main>
     </div>

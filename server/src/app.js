@@ -19,6 +19,7 @@ const teamRoutes         = require('./routes/team')
 const contactRoutes      = require('./routes/contact')
 const recruitmentRoutes  = require('./routes/recruitment')
 const adminRoutes        = require('./routes/admin')
+const settingsRoutes     = require('./routes/settings')
 
 const app = express()
 
@@ -59,6 +60,7 @@ app.use('/api/v1/publications', publicLimiter, publicationRoutes)
 app.use('/api/v1/team',         publicLimiter, teamRoutes)
 app.use('/api/v1/contact',      publicLimiter, contactRoutes)
 app.use('/api/v1/recruitment',  publicLimiter, recruitmentRoutes)
+app.use('/api/v1/settings',     settingsRoutes)
 app.use('/api/v1/admin',        adminRoutes)
 
 // ── Health check ─────────────────────────────────────────────────────────

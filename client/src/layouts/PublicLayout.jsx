@@ -5,11 +5,10 @@ import Footer from '@/components/organisms/Footer'
 
 export default function PublicLayout() {
   const location = useLocation()
-
   return (
-    <div className="flex flex-col min-h-screen bg-surface text-on-surface">
+    <div style={{ display:'flex', flexDirection:'column', minHeight:'100vh', background:'#070b11', color:'#e2e8f0' }}>
       <Navbar />
-      <main className="flex-1" id="main-content">
+      <main style={{ flex:1 }} id="main-content">
         <AnimatePresence mode="wait" initial={false}>
           <Outlet key={location.pathname} />
         </AnimatePresence>

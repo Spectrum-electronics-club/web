@@ -1,69 +1,77 @@
 import { NavLink, useNavigate } from 'react-router-dom'
-import { clsx } from 'clsx'
 import { useAuth } from '@/context/AuthContext'
-import {
-  MdDashboard, MdFolderSpecial, MdEvent, MdPhoto,
-  MdPeople, MdArticle, MdCampaign, MdAssignment,
-  MdMail, MdLogout,
-} from 'react-icons/md'
+import { 
+  FiHome, FiBriefcase, FiCalendar, FiImage, FiUsers, 
+  FiFileText, FiBell, FiUserPlus, FiMessageSquare, FiSettings, FiLogOut 
+} from 'react-icons/fi'
 
 const navItems = [
-  { to: '/admin/dashboard',     icon: MdDashboard,      label: 'Dashboard' },
-  { to: '/admin/projects',      icon: MdFolderSpecial,  label: 'Projects' },
-  { to: '/admin/events',        icon: MdEvent,          label: 'Events' },
-  { to: '/admin/gallery',       icon: MdPhoto,          label: 'Gallery' },
-  { to: '/admin/team',          icon: MdPeople,         label: 'Team' },
-  { to: '/admin/publications',  icon: MdArticle,        label: 'Publications' },
-  { to: '/admin/announcements', icon: MdCampaign,       label: 'Announcements' },
-  { to: '/admin/recruitment',   icon: MdAssignment,     label: 'Recruitment' },
-  { to: '/admin/contacts',      icon: MdMail,           label: 'Contacts' },
+  { to: '/admin/dashboard',     icon: FiHome,          label: 'Dashboard' },
+  { to: '/admin/projects',      icon: FiBriefcase,     label: 'Projects' },
+  { to: '/admin/events',        icon: FiCalendar,      label: 'Events' },
+  { to: '/admin/gallery',       icon: FiImage,         label: 'Gallery' },
+  { to: '/admin/team',          icon: FiUsers,         label: 'Team' },
+  { to: '/admin/publications',  icon: FiFileText,      label: 'Publications' },
+  { to: '/admin/announcements', icon: FiBell,          label: 'Announcements' },
+  { to: '/admin/recruitment',   icon: FiUserPlus,      label: 'Recruitment' },
+  { to: '/admin/contacts',      icon: FiMessageSquare, label: 'Messages' },
+  { to: '/admin/settings',      icon: FiSettings,      label: 'Settings' },
 ]
 
 export default function AdminSidebar() {
   const { logout } = useAuth()
-  const navigate = useNavigate()
-
-  const handleLogout = () => {
-    logout()
-    navigate('/admin/login')
-  }
+  const navigate   = useNavigate()
 
   return (
-    <aside className="w-64 min-h-screen bg-neutral-900 text-neutral-400 flex flex-col shrink-0">
-      <div className="px-6 py-5 border-b border-neutral-800">
-        <span className="font-heading font-bold text-lg text-white">NGND Admin</span>
+    <aside style={{
+      width:'240px', minHeight:'100vh', flexShrink:0,
+      background:'#030712',
+      borderRight:'1px solid rgba(0,212,255,0.08)',
+      display:'flex', flexDirection:'column',
+    }}>
+      {/* Logo */}
+      <div style={{ padding:'1.25rem 1.5rem', borderBottom:'1px solid rgba(0,212,255,0.08)', display:'flex', alignItems:'center', gap:'0.6rem' }}>
+        <div style={{ width:'32px', height:'32px', borderRadius:'9px', background:'linear-gradient(135deg,#0891b2,#7c3aed)', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Space Grotesk',sans-serif", fontWeight:800, color:'white', fontSize:'0.9rem' }}>S</div>
+        <h2 style={{ color: '#fff', fontSize: '1.25rem', fontWeight: 700, margin: 0, letterSpacing: '0.05em' }}>
+          SPECTRUM Admin
+        </h2>
       </div>
 
-      <nav aria-label="Admin navigation" className="flex-1 py-4">
-        <ul className="space-y-1 px-3" role="list">
-          {navItems.map(({ to, icon: Icon, label }) => (
+      {/* Nav */}
+      <nav style={{ flex:1, padding:'0.75rem 0.625rem', overflowY:'auto' }} aria-label="Admin navigation">
+        <ul style={{ listStyle:'none', padding:0, margin:0, display:'flex', flexDirection:'column', gap:'2px' }}>
+          {navItems.map(({ to, icon:Icon, label }) => (
             <li key={to}>
-              <NavLink
-                to={to}
-                className={({ isActive }) =>
-                  clsx(
-                    'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150',
-                    isActive
-                      ? 'bg-primary-600/20 text-primary-400'
-                      : 'hover:bg-neutral-800 hover:text-white'
-                  )
-                }
+              <NavLink to={to} style={({ isActive }) => ({
+                display:'flex', alignItems:'center', gap:'0.625rem',
+                padding:'0.6rem 0.75rem', borderRadius:'10px',
+                fontSize:'0.875rem', fontWeight:500, textDecoration:'none',
+                transition:'all 0.15s',
+                background: isActive ? 'rgba(0,212,255,0.1)' : 'transparent',
+                color: isActive ? '#22d3ee' : '#64748b',
+              })}
+                onMouseEnter={e => { if (!e.currentTarget.dataset.active) { e.currentTarget.style.background='rgba(255,255,255,0.04)'; e.currentTarget.style.color='#e2e8f0' } }}
+                onMouseLeave={e => { if (!e.currentTarget.dataset.active) { e.currentTarget.style.background=''; e.currentTarget.style.color='' } }}
               >
-                <Icon size={18} aria-hidden="true" />
-                {label}
+                <Icon size={17} aria-hidden="true" /> {label}
               </NavLink>
             </li>
           ))}
         </ul>
       </nav>
 
-      <div className="px-3 pb-4">
-        <button
-          onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-red-400 hover:bg-red-900/20 transition-colors"
+      {/* Logout */}
+      <div style={{ padding:'0.625rem', borderTop:'1px solid rgba(0,212,255,0.08)' }}>
+        <button onClick={() => { logout(); navigate('/admin/login') }} style={{
+          width:'100%', display:'flex', alignItems:'center', gap:'0.625rem',
+          padding:'0.6rem 0.75rem', borderRadius:'10px', border:'none',
+          fontSize:'0.875rem', fontWeight:500, cursor:'pointer',
+          background:'transparent', color:'#ef4444', transition:'all 0.15s',
+        }}
+          onMouseEnter={e=>e.currentTarget.style.background='rgba(239,68,68,0.08)'}
+          onMouseLeave={e=>e.currentTarget.style.background='transparent'}
         >
-          <MdLogout size={18} aria-hidden="true" />
-          Log out
+          <FiLogOut size={17} /> Log out
         </button>
       </div>
     </aside>

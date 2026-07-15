@@ -13,7 +13,7 @@ const STATUS_OPTS = [
   { value: 'archived', label: 'Archived' },
 ]
 
-const EMPTY = { title: '', description: '', techStack: '', status: 'ongoing', githubUrl: '', demoUrl: '' }
+const EMPTY = { title: '', description: '', techStack: '', status: 'ongoing', githubUrl: '', demoUrl: '', featured: false }
 
 export default function AdminProjects() {
   const [projects, setProjects] = useState([])
@@ -34,7 +34,7 @@ export default function AdminProjects() {
   const openCreate = () => { setEditing(null); setFields(EMPTY); setFormOpen(true) }
   const openEdit = (p) => {
     setEditing(p)
-    setFields({ ...EMPTY, ...p, techStack: p.techStack?.join(', ') || '' })
+    setFields({ ...EMPTY, ...p, techStack: p.techStack?.join(', ') || '', featured: !!p.featured })
     setFormOpen(true)
   }
 
@@ -64,7 +64,7 @@ export default function AdminProjects() {
     }
   }
 
-  const ch = (k) => (e) => setFields((f) => ({ ...f, [k]: e.target.value }))
+  const ch = (k) => (e) => setFields((f) => ({ ...f, [k]: e.target.type === 'checkbox' ? e.target.checked : e.target.value }))
 
   return (
     <div>
@@ -113,6 +113,10 @@ export default function AdminProjects() {
           <Select label="Status" required options={STATUS_OPTS} value={fields.status} onChange={ch('status')} />
           <Input label="GitHub URL" type="url" value={fields.githubUrl} onChange={ch('githubUrl')} />
           <Input label="Demo URL" type="url" value={fields.demoUrl} onChange={ch('demoUrl')} />
+          <div className="flex items-center gap-2 pt-2">
+            <input type="checkbox" id="featured" checked={fields.featured} onChange={ch('featured')} className="w-4 h-4 rounded border-neutral-300" />
+            <label htmlFor="featured" className="text-sm font-medium text-on-surface cursor-pointer">Feature this project on the Home page</label>
+          </div>
           <div className="flex gap-3 justify-end pt-2">
             <Button type="button" variant="secondary" onClick={() => setFormOpen(false)}>Cancel</Button>
             <Button type="submit" loading={saving}>Save</Button>

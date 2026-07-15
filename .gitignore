@@ -13,6 +13,7 @@ server/.env
 client/.env
 
 # Build output
+dist/
 client/dist/
 server/dist/
 build/
@@ -34,7 +35,7 @@ Thumbs.db
 desktop.ini
 
 # Editor
-.vscode/settings.json
+.vscode/
 .idea/
 *.suo
 *.ntvs*
@@ -42,8 +43,9 @@ desktop.ini
 *.sln
 *.sw?
 
-# Uploads (local dev)
+# Uploads (local dev images)
 server/uploads/
+uploads/
 
 # Coverage
 coverage/

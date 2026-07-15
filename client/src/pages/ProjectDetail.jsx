@@ -1,86 +1,115 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
+import { IoArrowBack } from 'react-icons/io5'
 import PageTransition from '@/components/molecules/PageTransition'
-import Section from '@/components/molecules/Section'
-import Container from '@/components/molecules/Container'
-import Badge from '@/components/atoms/Badge'
-import Button from '@/components/atoms/Button'
-import Skeleton from '@/components/atoms/Skeleton'
 import api from '@/utils/axiosInstance'
 
 export default function ProjectDetail() {
   const { id } = useParams()
   const [project, setProject] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [error, setError]     = useState(null)
+  const [imgIdx, setImgIdx]   = useState(0)
 
   useEffect(() => {
     api.get(`/projects/${id}`)
-      .then((r) => setProject(r.data.data || r.data))
-      .catch(() => setError('Failed to load project.'))
+      .then(r => setProject(r.data.data || r.data))
+      .catch(() => setError('Project not found.'))
       .finally(() => setLoading(false))
   }, [id])
 
   return (
     <PageTransition>
-      <Section>
-        <Container narrow>
-          <Link to="/projects" className="text-sm text-primary-600 hover:underline mb-6 block">
-            ← Back to Projects
+      <div style={{ background:'#070b11', minHeight:'100vh' }}>
+        <div className="container-main" style={{ paddingTop:'5rem', paddingBottom:'6rem' }}>
+          <Link to="/projects" style={{
+            display:'inline-flex', alignItems:'center', gap:'0.5rem',
+            color:'#64748b', textDecoration:'none', fontSize:'0.875rem',
+            marginBottom:'2.5rem', transition:'color 0.2s',
+          }}
+            onMouseEnter={e=>e.currentTarget.style.color='#22d3ee'}
+            onMouseLeave={e=>e.currentTarget.style.color='#64748b'}>
+            <IoArrowBack size={16} /> Back to Projects
           </Link>
 
           {loading && (
-            <div className="space-y-4">
-              <Skeleton className="h-8 w-2/3" />
-              <Skeleton className="h-56 w-full rounded-xl" />
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-5/6" />
+            <div style={{ display:'flex', flexDirection:'column', gap:'1.5rem', maxWidth:'720px' }}>
+              <div className="skeleton" style={{ height:'48px', width:'60%', borderRadius:'8px' }} />
+              <div className="skeleton" style={{ height:'360px', borderRadius:'16px' }} />
+              <div className="skeleton" style={{ height:'16px', width:'100%' }} />
+              <div className="skeleton" style={{ height:'16px', width:'80%' }} />
             </div>
           )}
-
-          {error && <p className="text-error">{error}</p>}
+          {error && <p style={{ color:'#ef4444', padding:'3rem 0' }}>{error}</p>}
 
           {project && (
-            <article>
-              <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
-                <h1>{project.title}</h1>
-                <Badge variant={project.status}>{project.status}</Badge>
+            <motion.article initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.5 }}
+              style={{ maxWidth:'800px' }}>
+
+              {/* Title row */}
+              <div style={{ display:'flex', flexWrap:'wrap', gap:'1rem', alignItems:'flex-start', marginBottom:'1.5rem' }}>
+                <h1 style={{ flex:1, fontSize:'clamp(1.8rem,4vw,2.5rem)', color:'#f1f5f9', margin:0 }}>{project.title}</h1>
+                <span className={project.status==='ongoing'?'badge-green':project.status==='archived'?'badge-purple':'badge-cyan'}
+                  style={{ fontSize:'0.85rem', padding:'0.3rem 0.85rem', alignSelf:'flex-start' }}>
+                  {project.status}
+                </span>
               </div>
 
+              {/* Image viewer */}
               {project.images?.length > 0 && (
-                <div className="mb-6 overflow-hidden rounded-xl">
-                  <img src={project.images[0]} alt={project.title} className="w-full max-h-96 object-cover" />
+                <div style={{ marginBottom:'2rem' }}>
+                  <img src={project.images[imgIdx]} alt={project.title}
+                    style={{ width:'100%', maxHeight:'420px', objectFit:'cover', borderRadius:'16px',
+                      border:'1px solid rgba(0,212,255,0.15)' }} />
+                  {project.images.length > 1 && (
+                    <div style={{ display:'flex', gap:'0.5rem', marginTop:'0.75rem', flexWrap:'wrap' }}>
+                      {project.images.map((img, i) => (
+                        <button key={i} onClick={() => setImgIdx(i)} style={{
+                          border: i===imgIdx ? '2px solid #22d3ee' : '2px solid rgba(0,212,255,0.1)',
+                          borderRadius:'8px', padding:0, cursor:'pointer', background:'none', overflow:'hidden',
+                        }}>
+                          <img src={img} alt="" style={{ width:'64px', height:'48px', objectFit:'cover', display:'block' }} />
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
 
-              <p className="text-neutral-600 dark:text-neutral-300 leading-relaxed mb-6">
-                {project.description}
-              </p>
+              {/* Description */}
+              <p style={{ color:'#94a3b8', lineHeight:1.85, fontSize:'1rem', marginBottom:'2rem' }}>{project.description}</p>
 
-              <div className="mb-6">
-                <h3 className="text-sm font-semibold uppercase tracking-widest text-neutral-500 mb-3">Tech Stack</h3>
-                <div className="flex flex-wrap gap-2">
-                  {project.techStack?.map((t) => <Badge key={t} variant="primary">{t}</Badge>)}
+              {/* Tech stack */}
+              {project.techStack?.length > 0 && (
+                <div style={{ marginBottom:'1.75rem' }}>
+                  <p style={{ fontSize:'0.75rem', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.12em', color:'#374151', marginBottom:'0.75rem' }}>Tech Stack</p>
+                  <div style={{ display:'flex', flexWrap:'wrap', gap:'0.5rem' }}>
+                    {project.techStack.map(t => <span key={t} className="badge-cyan" style={{ fontSize:'0.85rem', padding:'0.3rem 0.85rem' }}>{t}</span>)}
+                  </div>
                 </div>
-              </div>
+              )}
 
-              <div className="flex gap-3">
+              {/* Links */}
+              <div style={{ display:'flex', gap:'0.75rem', flexWrap:'wrap' }}>
                 {project.githubUrl && (
-                  <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                    <Button variant="secondary" size="sm"><FaGithub /> GitHub</Button>
+                  <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="btn-outline"
+                    style={{ fontSize:'0.9rem', textDecoration:'none' }}>
+                    <FaGithub size={15} /> GitHub
                   </a>
                 )}
                 {project.demoUrl && (
-                  <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
-                    <Button variant="accent" size="sm"><FaExternalLinkAlt /> Live Demo</Button>
+                  <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="btn-glow"
+                    style={{ fontSize:'0.9rem', textDecoration:'none' }}>
+                    <FaExternalLinkAlt size={13} /> Live Demo
                   </a>
                 )}
               </div>
-            </article>
+            </motion.article>
           )}
-        </Container>
-      </Section>
+        </div>
+      </div>
     </PageTransition>
   )
 }

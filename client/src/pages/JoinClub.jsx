@@ -1,104 +1,123 @@
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import PageTransition from '@/components/molecules/PageTransition'
-import Section from '@/components/molecules/Section'
-import Container from '@/components/molecules/Container'
-import SectionHeader from '@/components/molecules/SectionHeader'
-import Input from '@/components/atoms/Input'
-import Textarea from '@/components/atoms/Textarea'
-import Select from '@/components/atoms/Select'
-import Button from '@/components/atoms/Button'
-import Card from '@/components/atoms/Card'
 import api from '@/utils/axiosInstance'
 
-const YEAR_OPTIONS = [
-  { value: '1', label: 'Year 1' }, { value: '2', label: 'Year 2' },
-  { value: '3', label: 'Year 3' }, { value: '4', label: 'Year 4' },
-  { value: '5', label: 'Year 5' },
-]
+const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const phoneRe = /^\+?[\d\s\-]{10,15}$/
 
 function validate(f) {
-  const errors = {}
-  if (!f.fullName.trim()) errors.fullName = 'Name is required.'
-  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  if (!f.email.trim()) errors.email = 'Email is required.'
-  else if (!emailRe.test(f.email)) errors.email = 'Enter a valid email address.'
-  const phoneRe = /^\+?[\d\s\-]{10,15}$/
-  if (!f.phone.trim()) errors.phone = 'Phone is required.'
-  else if (!phoneRe.test(f.phone)) errors.phone = 'Enter a valid phone number.'
-  if (!f.department.trim()) errors.department = 'Department is required.'
-  if (!f.year) errors.year = 'Year of study is required.'
-  if (f.motivation.trim().length < 50) errors.motivation = 'Motivation must be at least 50 characters.'
-  return errors
+  const e = {}
+  if (!f.fullName.trim()) e.fullName = 'Name is required.'
+  if (!f.email.trim()) e.email = 'Email is required.'
+  else if (!emailRe.test(f.email)) e.email = 'Enter a valid email.'
+  if (!f.phone.trim()) e.phone = 'Phone is required.'
+  else if (!phoneRe.test(f.phone)) e.phone = 'Enter a valid phone number.'
+  if (!f.department.trim()) e.department = 'Department is required.'
+  if (!f.year) e.year = 'Year is required.'
+  if (f.motivation.trim().length < 50) e.motivation = 'At least 50 characters required.'
+  return e
 }
 
+const fl = { display:'flex', flexDirection:'column', gap:'0.35rem' }
+const lb = { color:'#94a3b8', fontSize:'0.85rem', fontWeight:600 }
+const er = { color:'#ef4444', fontSize:'0.75rem' }
+
 export default function JoinClub() {
-  const init = { fullName: '', email: '', phone: '', department: '', year: '', motivation: '', linkedinUrl: '' }
-  const [fields, setFields] = useState(init)
-  const [errors, setErrors] = useState({})
+  const init = { fullName:'', email:'', phone:'', department:'', year:'', motivation:'', linkedinUrl:'' }
+  const [fields, setFields]   = useState(init)
+  const [errors, setErrors]   = useState({})
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [apiError, setApiError] = useState(null)
 
-  const change = (key) => (e) => setFields((f) => ({ ...f, [key]: e.target.value }))
+  const ch = k => e => setFields(f => ({ ...f, [k]: e.target.value }))
 
-  const submit = async (e) => {
+  const submit = async e => {
     e.preventDefault()
     const errs = validate(fields)
     if (Object.keys(errs).length) { setErrors(errs); return }
-    setErrors({})
-    setLoading(true)
-    setApiError(null)
+    setErrors({}); setLoading(true); setApiError(null)
     try {
       await api.post('/recruitment', fields)
       setSuccess(true)
     } catch (err) {
-      if (err.response?.status === 409) {
-        setApiError('An application from this email is already pending review.')
-      } else {
-        setApiError(err.response?.data?.message || 'Something went wrong. Please try again.')
-      }
-    } finally {
-      setLoading(false)
-    }
+      if (err.response?.status === 409) setApiError('An application from this email is already pending.')
+      else setApiError(err.response?.data?.message || 'Something went wrong.')
+    } finally { setLoading(false) }
   }
 
   return (
     <PageTransition>
-      <Section>
-        <Container narrow>
-          <SectionHeader label="Join Club" title="Apply to NGND" center
-            subtitle="Fill in the form below and we'll review your application." />
-          {success ? (
-            <Card className="p-8 text-center">
-              <p className="text-2xl mb-2">🎉</p>
-              <h3 className="font-heading font-semibold mb-2">Application received!</h3>
-              <p className="text-neutral-500 text-sm">We'll be in touch soon.</p>
-            </Card>
-          ) : (
-            <Card className="p-8">
-              <form onSubmit={submit} noValidate className="space-y-5">
-                <Input label="Full Name" required value={fields.fullName} onChange={change('fullName')} error={errors.fullName} />
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <Input label="Email" type="email" required value={fields.email} onChange={change('email')} error={errors.email} />
-                  <Input label="Phone" type="tel" required value={fields.phone} onChange={change('phone')} error={errors.phone} />
-                </div>
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <Input label="Department" required value={fields.department} onChange={change('department')} error={errors.department} />
-                  <Select label="Year of Study" required options={YEAR_OPTIONS} placeholder="Select year"
-                    value={fields.year} onChange={change('year')} error={errors.year} />
-                </div>
-                <Textarea label="Why do you want to join NGND?" required rows={5}
-                  hint="Minimum 50 characters"
-                  value={fields.motivation} onChange={change('motivation')} error={errors.motivation} />
-                <Input label="LinkedIn URL" type="url" value={fields.linkedinUrl} onChange={change('linkedinUrl')}
-                  hint="Optional" error={errors.linkedinUrl} />
-                {apiError && <p role="alert" className="text-error text-sm">{apiError}</p>}
-                <Button type="submit" loading={loading} className="w-full">Submit Application</Button>
-              </form>
-            </Card>
-          )}
-        </Container>
-      </Section>
+      <div style={{ background:'#070b11', minHeight:'100vh' }}>
+        <section style={{ position:'relative', padding:'7rem 0 3rem', overflow:'hidden' }} className="bg-grid">
+          <div className="orb orb-purple" style={{ width:'400px', height:'400px', top:'-60px', right:'5%', opacity:0.2 }} />
+          <div className="container-main" style={{ position:'relative', zIndex:1, textAlign:'center' }}>
+            <motion.div initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.6 }}>
+              <div className="section-label" style={{ margin:'0 auto 1rem' }}>Join the Club</div>
+              <h1 style={{ fontSize:'clamp(2rem,5vw,3rem)', color:'#f1f5f9', marginBottom:'1rem' }}>
+                Apply to <span className="gradient-text">NGND</span>
+              </h1>
+              <p style={{ color:'#94a3b8', maxWidth:'460px', margin:'0 auto', lineHeight:1.75 }}>
+                Fill in the form and we will review your application and get back to you.
+              </p>
+            </motion.div>
+          </div>
+        </section>
+
+        <section style={{ padding:'2rem 0 6rem' }}>
+          <div className="container-main" style={{ maxWidth:'680px' }}>
+            {success ? (
+              <div className="card-glass" style={{ padding:'3rem', textAlign:'center' }}>
+                <p style={{ fontSize:'3rem', marginBottom:'0.5rem' }}>🎉</p>
+                <h3 style={{ fontFamily:"'Space Grotesk',sans-serif", color:'#e2e8f0', fontWeight:700, marginBottom:'0.5rem' }}>Application received!</h3>
+                <p style={{ color:'#64748b' }}>We will be in touch soon. Welcome to the NGND family!</p>
+              </div>
+            ) : (
+              <div className="card-glass" style={{ padding:'2rem' }}>
+                <form onSubmit={submit} noValidate style={{ display:'flex', flexDirection:'column', gap:'1.25rem' }}>
+                  <div style={fl}><label style={lb}>Full Name *</label>
+                    <input className={`input-dark${errors.fullName?' error':''}`} value={fields.fullName} onChange={ch('fullName')} placeholder="Your full name" />
+                    {errors.fullName && <span style={er}>{errors.fullName}</span>}</div>
+
+                  <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1rem' }}>
+                    <div style={fl}><label style={lb}>Email *</label>
+                      <input className={`input-dark${errors.email?' error':''}`} type="email" value={fields.email} onChange={ch('email')} placeholder="you@example.com" />
+                      {errors.email && <span style={er}>{errors.email}</span>}</div>
+                    <div style={fl}><label style={lb}>Phone *</label>
+                      <input className={`input-dark${errors.phone?' error':''}`} type="tel" value={fields.phone} onChange={ch('phone')} placeholder="+91 XXXXX XXXXX" />
+                      {errors.phone && <span style={er}>{errors.phone}</span>}</div>
+                  </div>
+
+                  <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1rem' }}>
+                    <div style={fl}><label style={lb}>Department *</label>
+                      <input className={`input-dark${errors.department?' error':''}`} value={fields.department} onChange={ch('department')} placeholder="e.g. Electronics" />
+                      {errors.department && <span style={er}>{errors.department}</span>}</div>
+                    <div style={fl}><label style={lb}>Year of Study *</label>
+                      <select className={`input-dark${errors.year?' error':''}`} value={fields.year} onChange={ch('year')}>
+                        <option value="">Select year</option>
+                        {[1,2,3,4,5].map(y => <option key={y} value={y}>Year {y}</option>)}
+                      </select>
+                      {errors.year && <span style={er}>{errors.year}</span>}</div>
+                  </div>
+
+                  <div style={fl}><label style={lb}>Why do you want to join NGND? * <span style={{ color:'#4b5563', fontWeight:400 }}>(min 50 chars)</span></label>
+                    <textarea className={`input-dark${errors.motivation?' error':''}`} value={fields.motivation} onChange={ch('motivation')} rows={5} placeholder="Tell us about yourself…" style={{ resize:'vertical' }} />
+                    {errors.motivation && <span style={er}>{errors.motivation}</span>}</div>
+
+                  <div style={fl}><label style={lb}>LinkedIn URL <span style={{ color:'#4b5563', fontWeight:400 }}>(optional)</span></label>
+                    <input className="input-dark" type="url" value={fields.linkedinUrl} onChange={ch('linkedinUrl')} placeholder="https://linkedin.com/in/…" /></div>
+
+                  {apiError && <p role="alert" style={{ color:'#ef4444', fontSize:'0.875rem' }}>{apiError}</p>}
+                  <button type="submit" className="btn-glow" disabled={loading} style={{ width:'100%', justifyContent:'center', fontSize:'1rem', padding:'0.8rem' }}>
+                    {loading ? 'Submitting…' : 'Submit Application ⚡'}
+                  </button>
+                </form>
+              </div>
+            )}
+          </div>
+        </section>
+      </div>
     </PageTransition>
   )
 }

@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const teamMemberSchema = new mongoose.Schema({
   fullName:          { type: String, required: true, trim: true },
   role:              { type: String, required: true, trim: true },
+  category:          { type: String, default: 'Core Team', trim: true },
   photo:             { type: String },
   linkedinUrl:       { type: String },
   githubUrl:         { type: String },

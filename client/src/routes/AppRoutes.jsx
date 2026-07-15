@@ -31,6 +31,7 @@ const AdminPublications = lazy(() => import('@/pages/admin/AdminPublications'))
 const AdminAnnouncements = lazy(() => import('@/pages/admin/AdminAnnouncements'))
 const AdminRecruitment   = lazy(() => import('@/pages/admin/AdminRecruitment'))
 const AdminContacts      = lazy(() => import('@/pages/admin/AdminContacts'))
+const AdminSettings      = lazy(() => import('@/pages/admin/AdminSettings'))
 
 export default function AppRoutes() {
   return (
@@ -68,6 +69,7 @@ export default function AppRoutes() {
             <Route path="/admin/announcements"    element={<AdminAnnouncements />} />
             <Route path="/admin/recruitment"      element={<AdminRecruitment />} />
             <Route path="/admin/contacts"         element={<AdminContacts />} />
+            <Route path="/admin/settings"         element={<AdminSettings />} />
           </Route>
         </Route>
 
