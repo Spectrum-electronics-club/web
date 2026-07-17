@@ -285,7 +285,7 @@ export default function Home() {
 
 
       {/* ── CTA ───────────────────────────────────────────────────────────── */}
-      {/* /*<section style={{ position: 'relative', padding: '6rem 0', overflow: 'hidden', background: '#050810' }}>
+      {/* <section style={{ position: 'relative', padding: '6rem 0', overflow: 'hidden', background: '#050810' }}>
         <div className="orb orb-cyan" style={{ width: '400px', height: '400px', top: '50%', left: '10%', transform: 'translateY(-50%)', opacity: 0.2 }} />
         <div className="orb orb-purple" style={{ width: '350px', height: '350px', top: '50%', right: '10%', transform: 'translateY(-50%)', opacity: 0.2 }} />
         <div className="container-main" style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
@@ -305,7 +305,7 @@ export default function Home() {
             </div>
           </motion.div>
         </div>
-      </section>*/ */}
+      </section> */}
     </PageTransition>
   )
 }
