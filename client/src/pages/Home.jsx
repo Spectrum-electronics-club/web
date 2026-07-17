@@ -22,10 +22,10 @@ function Counter({ end, suffix = '' }) {
 }
 
 const STATS = [
-  { label: 'Active Members', value: 200, suffix: '+' },
-  { label: 'Events Yearly', value: 10, suffix: '+' },
+  { label: 'Active Members', value: 50, suffix: '+' },
+  { label: 'Events Yearly', value: 5, suffix: '+' },
   { label: 'Projects Built', value: 30, suffix: '+' },
-  { label: 'Competitions', value: 15, suffix: '+' },
+
 ]
 
 const DOMAINS = [
@@ -170,7 +170,7 @@ export default function Home() {
             </h1>
 
             <p style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)', color: '#94a3b8', lineHeight: 1.75, marginBottom: '2.5rem', maxWidth: '560px' }}>
-              Join a vibrant community of curious minds, creative thinkers, and future
+              A vibrant community of curious minds, creative thinkers, and future
               innovators shaping the world through Electronics and Robotics.
             </p>
 
@@ -202,10 +202,10 @@ export default function Home() {
           <motion.div {...fade}>
             <div className="section-label">About NGND</div>
             <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', color: '#f1f5f9', marginBottom: '1rem' }}>
-              More Than a Club —<br /><span className="gradient-text-cyan">A Builder's Ecosystem</span>
+              More Than a Club <br /><span className="gradient-text-cyan">A Builder's Ecosystem</span>
             </h2>
             <p style={{ color: '#94a3b8', lineHeight: 1.8, marginBottom: '1rem' }}>
-              NGND is a student-led Engineering and Research Club dedicated to bridging the gap between
+              Spectrum is a student-led Engineering and Research Club dedicated to bridging the gap between
               classroom theory and real-world innovation. We build robots, design circuits, develop AI systems,
               and compete on national stages.
             </p>
@@ -216,7 +216,7 @@ export default function Home() {
             <Link to="/about" className="btn-outline">Learn More About Us →</Link>
           </motion.div>
           <motion.div {...fade} className="grid grid-cols-2 gap-4">
-            {[{ n: '2019', l: 'Year Founded' }, { n: '200+', l: 'Members' }, { n: '30+', l: 'Projects' }, { n: '15+', l: 'Awards Won' }].map(s => (
+            {[{ n: '2024', l: 'Year Founded' }, { n: '100+', l: 'Total Members' }, { n: '30+', l: 'Projects' }, { n: '15+', l: 'Hosted Events' }].map(s => (
               <div key={s.l} className="card-glass" style={{ padding: '1.5rem', textAlign: 'center' }}>
                 <div className="stat-number" style={{ fontSize: '2rem' }}>{s.n}</div>
                 <p style={{ color: '#64748b', fontSize: '0.8rem', margin: '0.25rem 0 0', fontWeight: 600 }}>{s.l}</p>
@@ -231,7 +231,7 @@ export default function Home() {
         <div className="container-main">
           <motion.div {...fade} style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
             <div className="section-label" style={{ margin: '0 auto 1.25rem' }}>Our Domains</div>
-            <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', color: '#f1f5f9' }}>Spectrum operates across<br /><span className="gradient-text">multiple technical domains</span></h2>
+            <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', color: '#f1f5f9' }}>Spectrum Operates Across<br /><span className="gradient-text">Multiple Technical Domains</span></h2>
           </motion.div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
             {DOMAINS.map((d, i) => (
