@@ -1,4 +1,4 @@
-# NGND Club Website
+# SpectrumClub Website
 
 Full-stack web application for the NGND club — built with React (Vite) on the frontend and Node/Express on the backend.
 
