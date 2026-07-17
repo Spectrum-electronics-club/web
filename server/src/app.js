@@ -26,7 +26,10 @@ const app = express()
 // ── Security ─────────────────────────────────────────────────────────────
 app.use(helmet())
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: function (origin, callback) {
+    // Allow all origins dynamically since Vercel generates multiple aliases
+    callback(null, true)
+  },
   credentials: true,
 }))
 app.use(mongoSanitize())
