@@ -7,6 +7,9 @@ import { fileURLToPath } from 'url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
+  define: {
+    'import.meta.env.VITE_API_URL': JSON.stringify('https://spectrum-4qtx.onrender.com/api/v1')
+  },
   plugins: [tailwindcss(), react()],
   resolve: {
     alias: {
