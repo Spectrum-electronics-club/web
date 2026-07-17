@@ -2,6 +2,14 @@ const express      = require('express')
 const multer       = require('multer')
 const path         = require('path')
 const fs           = require('fs')
+const cloudinary   = require('cloudinary').v2
+const { CloudinaryStorage } = require('multer-storage-cloudinary')
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+})
 const authMiddleware = require('../middleware/authMiddleware')
 const Project      = require('../models/Project')
 const Event        = require('../models/Event')
@@ -19,14 +27,11 @@ router.use(authMiddleware)
 const ALLOWED_MIME = ['image/jpeg', 'image/png', 'image/webp']
 const MAX_SIZE     = 10 * 1024 * 1024 // 10 MB
 
-const uploadsDir = path.join(__dirname, '../../uploads')
-if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true })
-
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => cb(null, uploadsDir),
-  filename:    (_req, file, cb) => {
-    const ext = path.extname(file.originalname)
-    cb(null, `${Date.now()}-${Math.random().toString(36).slice(2)}${ext}`)
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'ngnd_uploads',
+    allowed_formats: ['jpeg', 'png', 'jpg', 'webp'],
   },
 })
 
@@ -41,7 +46,7 @@ const upload = multer({
 
 router.post('/upload', upload.single('image'), (req, res) => {
   if (!req.file) return res.status(400).json({ status: 'error', message: 'No file uploaded', code: 400 })
-  const url = `/uploads/${req.file.filename}`
+  const url = req.file.path
   res.json({ url })
 })
 
@@ -114,9 +119,16 @@ router.post('/gallery', async (req, res, next) => {
 router.delete('/gallery/:id', async (req, res, next) => {
   try {
     const img = await Gallery.findByIdAndDelete(req.params.id)
-    if (img?.imageUrl?.startsWith('/uploads/')) {
-      const file = path.join(__dirname, '../..', img.imageUrl)
-      if (fs.existsSync(file)) fs.unlinkSync(file)
+    if (img?.imageUrl) {
+      if (img.imageUrl.includes('res.cloudinary.com')) {
+        const urlParts = img.imageUrl.split('/');
+        const filenameWithExt = urlParts[urlParts.length - 1];
+        const publicId = `ngnd_uploads/${filenameWithExt.split('.')[0]}`;
+        await cloudinary.uploader.destroy(publicId);
+      } else if (img.imageUrl.startsWith('/uploads/')) {
+        const file = path.join(__dirname, '../..', img.imageUrl)
+        if (fs.existsSync(file)) fs.unlinkSync(file)
+      }
     }
     res.status(204).end()
   } catch (err) { next(err) }
