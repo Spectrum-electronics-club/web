@@ -165,7 +165,7 @@ export default function Home() {
 
             <h1 style={{ fontSize: 'clamp(2.2rem, 10vw, 5rem)', lineHeight: 1.08, marginBottom: '1.5rem', color: '#f1f5f9' }}>
               Building the{' '}
-              <span className="gradient-text">Inovators</span>
+              <span className="gradient-text">Innovators</span>
               <br />of Tomorrow
             </h1>
 
