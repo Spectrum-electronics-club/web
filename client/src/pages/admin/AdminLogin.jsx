@@ -50,7 +50,7 @@ export default function AdminLogin() {
             fontFamily:"'Space Grotesk',sans-serif", fontWeight:800, fontSize:'1.3rem', color:'white',
           }}>N</div>
           <h1 style={{ fontFamily:"'Space Grotesk',sans-serif", fontWeight:700, color:'#e2e8f0', fontSize:'1.4rem', margin:'0 0 0.35rem' }}>Admin Login</h1>
-          <p style={{ color:'#64748b', fontSize:'0.875rem', margin:0 }}>NGND Club Admin Panel</p>
+          <p style={{ color:'#64748b', fontSize:'0.875rem', margin:0 }}>Spectrum Club Admin Panel</p>
         </div>
         <form onSubmit={submit} noValidate style={{ display:'flex', flexDirection:'column', gap:'1.25rem' }}>
           <div style={fl}>
