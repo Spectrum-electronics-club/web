@@ -237,9 +237,7 @@ export default function Home() {
             {DOMAINS.map((d, i) => (
               <motion.div key={d.title} {...fade} transition={{ duration: 0.4, delay: i * 0.07 }}>
                 <div className="card-glass" style={{ padding: '1.75rem', height: '100%' }}>
-                  <div className="domain-icon" style={{ background: `${d.color}18`, border: `1px solid ${d.color}30` }}>
-                    {d.emoji}
-                  </div>
+
                   <h3 style={{ fontFamily: "'Space Grotesk',sans-serif", fontSize: '1.05rem', fontWeight: 700, color: '#e2e8f0', marginBottom: '0.6rem' }}>{d.title}</h3>
                   <p style={{ color: '#64748b', fontSize: '0.875rem', lineHeight: 1.65, margin: 0 }}>{d.desc}</p>
                   <div style={{ width: '2.5rem', height: '2px', background: `linear-gradient(90deg,${d.color},transparent)`, marginTop: '1rem' }} />
