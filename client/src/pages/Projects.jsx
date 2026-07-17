@@ -5,7 +5,7 @@ import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
 import PageTransition from '@/components/molecules/PageTransition'
 import api from '@/utils/axiosInstance'
 
-const STATUS = ['all', 'ongoing', 'completed', 'archived']
+const STATUS = ['all', 'ongoing', 'completed']
 const fade = { initial:{opacity:0,y:24}, whileInView:{opacity:1,y:0}, viewport:{once:true}, transition:{duration:0.4} }
 
 export default function Projects() {

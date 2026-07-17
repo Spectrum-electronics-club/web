@@ -56,7 +56,7 @@ export default function Events() {
                 What's <span className="gradient-text">Happening...</span>
               </h1>
               <p style={{ color: '#94a3b8', maxWidth: '480px', lineHeight: 1.75 }}>
-                Workshops, hackathons, and competitions — stay up to date with everything Spectrum.
+                Be part of what's next. Join our workshops, competitions, and club events.
               </p>
             </motion.div>
           </div>
