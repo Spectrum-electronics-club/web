@@ -53,7 +53,7 @@ export default function Events() {
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
               <div className="section-label">Events & Competitions</div>
               <h1 style={{ fontSize: 'clamp(2rem,5vw,3rem)', color: '#f1f5f9', marginBottom: '0.75rem' }}>
-                What's <span className="gradient-text">Happening</span>
+                What's <span className="gradient-text">Happening...</span>
               </h1>
               <p style={{ color: '#94a3b8', maxWidth: '480px', lineHeight: 1.75 }}>
                 Workshops, hackathons, and competitions — stay up to date with everything Spectrum.
