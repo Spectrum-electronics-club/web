@@ -29,12 +29,12 @@ const STATS = [
 ]
 
 const DOMAINS = [
-  { emoji: '🤖', title: 'Robotics', desc: 'Combat robots, autonomous bots, line followers, and humanoid research.', color: '#06b6d4' },
-  { emoji: '🌐', title: 'IoT & Embedded', desc: 'Smart devices, sensor networks, ESP32/Arduino and cloud-connected systems.', color: '#8b5cf6' },
-  { emoji: '🛸', title: 'Drones & UAVs', desc: 'FPV racing drones, autonomous UAVs, aerial photography, and flight controllers.', color: '#f59e0b' },
-  { emoji: '⚡', title: 'Circuits & PCB', desc: 'Analog/digital circuit design, PCB layout, power electronics, and prototyping.', color: '#10b981' },
-  { emoji: '🧠', title: 'AI & Machine Learning', desc: 'Edge AI, computer vision on embedded hardware, gesture recognition, and neural networks.', color: '#f43f5e' },
-  { emoji: '🔬', title: 'Research', desc: 'Technical writing, research papers, documentation, and knowledge sharing.', color: '#a78bfa' },
+  { title: 'Robotics', desc: 'Combat robots, autonomous bots, line followers, and humanoid research.', color: '#06b6d4' },
+  { title: 'IoT & Embedded', desc: 'Smart devices, sensor networks, ESP32/Arduino and cloud-connected systems.', color: '#8b5cf6' },
+  { title: 'Drones & UAVs', desc: 'FPV racing drones, autonomous UAVs, aerial photography, and flight controllers.', color: '#f59e0b' },
+  { title: 'Circuits & PCB', desc: 'Analog/digital circuit design, PCB layout, power electronics, and prototyping.', color: '#10b981' },
+  { title: 'AI & Machine Learning', desc: 'Edge AI, computer vision on embedded hardware, gesture recognition, and neural networks.', color: '#f43f5e' },
+  { title: 'Research', desc: 'Technical writing, research papers, documentation, and knowledge sharing.', color: '#a78bfa' },
 ]
 
 const fade = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-60px' }, transition: { duration: 0.5 } }
@@ -279,50 +279,13 @@ export default function Home() {
       </section>
 
       {/* ── TESTIMONIALS ──────────────────────────────────────────────────── */}
-      <section style={{ background: '#0a0e17', padding: '5rem 0', borderTop: '1px solid rgba(0,212,255,0.08)' }}>
-        <div className="container-main">
-          <motion.div {...fade} style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-            <div className="section-label" style={{ margin: '0 auto 1.25rem' }}>Testimonials</div>
-            <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', color: '#f1f5f9' }}>What Our Members <span className="gradient-text">Say</span></h2>
-          </motion.div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
-            {[
-              { quote: "NGND gave me the resources and mentorship to build my first combat robot. It's an incredible community.", name: "Alex Kumar", role: "Robotics Lead" },
-              { quote: "The hands-on experience here is something you just don't get in a classroom. Best part of my college life.", name: "Sara Jenkins", role: "Hardware Engineer" },
-              { quote: "From hackathons to research papers, the support from seniors and alumni is unmatched.", name: "Michael Chen", role: "AI Researcher" }
-            ].map((t, i) => (
-              <motion.div key={i} {...fade} transition={{ duration: 0.4, delay: i * 0.1 }}>
-                <div className="card-glass" style={{ padding: '2rem', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <p style={{ color: '#e2e8f0', fontSize: '1rem', lineHeight: 1.6, fontStyle: 'italic', marginBottom: '1.5rem' }}>"{t.quote}"</p>
-                  <div>
-                    <div style={{ fontWeight: 700, color: '#22d3ee', fontFamily: "'Space Grotesk',sans-serif" }}>{t.name}</div>
-                    <div style={{ color: '#64748b', fontSize: '0.85rem' }}>{t.role}</div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+
 
       {/* ── SPONSORS ──────────────────────────────────────────────────────── */}
-      <section style={{ padding: '4rem 0' }}>
-        <div className="container-main">
-          <motion.div {...fade} style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-            <p style={{ color: '#64748b', fontSize: '0.875rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Trusted by Industry Leaders & Partners</p>
-          </motion.div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '3rem', opacity: 0.6 }}>
-            {['TechCorp', 'InnoVentures', 'RoboDynamics', 'NextGen AI', 'GlobalCircuits'].map((sponsor, i) => (
-              <motion.div key={sponsor} {...fade} transition={{ duration: 0.4, delay: i * 0.05 }} style={{ fontSize: '1.5rem', fontWeight: 800, fontFamily: "'Space Grotesk',sans-serif", color: '#94a3b8' }}>
-                {sponsor}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+
 
       {/* ── CTA ───────────────────────────────────────────────────────────── */}
-      <section style={{ position: 'relative', padding: '6rem 0', overflow: 'hidden', background: '#050810' }}>
+      {/* /*<section style={{ position: 'relative', padding: '6rem 0', overflow: 'hidden', background: '#050810' }}>
         <div className="orb orb-cyan" style={{ width: '400px', height: '400px', top: '50%', left: '10%', transform: 'translateY(-50%)', opacity: 0.2 }} />
         <div className="orb orb-purple" style={{ width: '350px', height: '350px', top: '50%', right: '10%', transform: 'translateY(-50%)', opacity: 0.2 }} />
         <div className="container-main" style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
@@ -342,7 +305,7 @@ export default function Home() {
             </div>
           </motion.div>
         </div>
-      </section>
+      </section>*/ */}
     </PageTransition>
   )
 }
