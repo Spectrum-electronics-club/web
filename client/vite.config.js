@@ -6,27 +6,34 @@ import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-export default defineConfig({
-  define: {
-    'import.meta.env.VITE_API_URL': JSON.stringify('https://spectrum-4qtx.onrender.com/api/v1')
-  },
-  plugins: [tailwindcss(), react()],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
+export default defineConfig(({ mode }) => {
+  const apiUrl =
+    mode === 'development'
+      ? 'http://localhost:5000/api/v1'
+      : 'https://spectrum-4qtx.onrender.com/api/v1'
+
+  return {
+    define: {
+      'import.meta.env.VITE_API_URL': JSON.stringify(apiUrl)
     },
-  },
-  server: {
-    port: 5173,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:5000',
-        changeOrigin: true,
-      },
-      '/uploads': {
-        target: 'http://localhost:5000',
-        changeOrigin: true,
+    plugins: [tailwindcss(), react()],
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
       },
     },
-  },
+    server: {
+      port: 5173,
+      proxy: {
+        '/api': {
+          target: 'http://localhost:5000',
+          changeOrigin: true,
+        },
+        '/uploads': {
+          target: 'http://localhost:5000',
+          changeOrigin: true,
+        },
+      },
+    },
+  }
 })

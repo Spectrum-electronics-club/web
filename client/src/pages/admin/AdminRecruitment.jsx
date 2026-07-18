@@ -3,6 +3,7 @@ import Button from '@/components/atoms/Button'
 import Badge from '@/components/atoms/Badge'
 import Modal from '@/components/atoms/Modal'
 import api from '@/utils/axiosInstance'
+import Pagination from '@/components/molecules/Pagination'
 
 const STATUS_OPTS = [
   { value: 'pending', label: 'Pending' },
@@ -18,12 +19,40 @@ export default function AdminRecruitment() {
   const [deleteConfirm, setDeleteConfirm] = useState(null)
   const [statusFilter, setStatusFilter] = useState('all')
 
-  const load = () => {
+  const [page, setPage] = useState(1)
+  const [limit, setLimit] = useState(10)
+  const [total, setTotal] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+
+  const load = (p = page, l = limit, status = statusFilter) => {
     setLoading(true)
-    api.get('/admin/recruitment').then((r) => setApps(r.data.data || r.data)).finally(() => setLoading(false))
+    api.get('/admin/recruitment', { params: { page: p, limit: l, status } }).then((r) => {
+      setApps(r.data.data || [])
+      if (r.data.pagination) {
+        setTotal(r.data.pagination.total)
+        setTotalPages(r.data.pagination.pages)
+      }
+    }).finally(() => setLoading(false))
   }
 
-  useEffect(() => { load() }, [])
+  useEffect(() => { load(1, limit, statusFilter) }, [])
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage)
+    load(newPage, limit, statusFilter)
+  }
+
+  const handleLimitChange = (newLimit) => {
+    setLimit(newLimit)
+    setPage(1)
+    load(1, newLimit, statusFilter)
+  }
+
+  const handleStatusFilterChange = (newStatus) => {
+    setStatusFilter(newStatus)
+    setPage(1)
+    load(1, limit, newStatus)
+  }
 
   const updateStatus = async (id, newStatus) => {
     try {
@@ -45,7 +74,7 @@ export default function AdminRecruitment() {
     }
   }
 
-  const filteredApps = statusFilter === 'all' ? apps : apps.filter(a => a.status === statusFilter)
+  const filteredApps = apps
 
   return (
     <div>
@@ -54,9 +83,9 @@ export default function AdminRecruitment() {
       </div>
 
       <div className="flex gap-2 mb-6 overflow-x-auto">
-        <button onClick={() => setStatusFilter('all')} className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${statusFilter === 'all' ? 'bg-primary-500/20 text-primary-400 border border-primary-500/50' : 'bg-transparent text-neutral-500 border border-neutral-700 hover:text-neutral-300'}`}>All</button>
+        <button onClick={() => handleStatusFilterChange('all')} className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${statusFilter === 'all' ? 'bg-primary-500/20 text-primary-400 border border-primary-500/50' : 'bg-transparent text-neutral-500 border border-neutral-700 hover:text-neutral-300'}`}>All</button>
         {STATUS_OPTS.map(opt => (
-          <button key={opt.value} onClick={() => setStatusFilter(opt.value)} className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${statusFilter === opt.value ? 'bg-primary-500/20 text-primary-400 border border-primary-500/50' : 'bg-transparent text-neutral-500 border border-neutral-700 hover:text-neutral-300'}`}>
+          <button key={opt.value} onClick={() => handleStatusFilterChange(opt.value)} className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${statusFilter === opt.value ? 'bg-primary-500/20 text-primary-400 border border-primary-500/50' : 'bg-transparent text-neutral-500 border border-neutral-700 hover:text-neutral-300'}`}>
             {opt.label}
           </button>
         ))}
@@ -105,6 +134,14 @@ export default function AdminRecruitment() {
               ))}
             </tbody>
           </table>
+          <Pagination
+            page={page}
+            limit={limit}
+            total={total}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            onLimitChange={handleLimitChange}
+          />
         </div>
       )}
 

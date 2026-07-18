@@ -22,6 +22,7 @@ function Counter({ end, suffix = '' }) {
 }
 
 const STATS = [
+<<<<<<< HEAD
   { label: 'Active Members', value: 50, suffix: '+' },
   { label: 'Events Yearly', value: 5, suffix: '+' },
   { label: 'Projects Built', value: 30, suffix: '+' },
@@ -35,6 +36,21 @@ const DOMAINS = [
   { title: 'Circuits & PCB', desc: 'Analog/digital circuit design, PCB layout, power electronics, and prototyping.', color: '#10b981' },
   { title: 'AI & Machine Learning', desc: 'Edge AI, computer vision on embedded hardware, gesture recognition, and neural networks.', color: '#f43f5e' },
   { title: 'Research', desc: 'Technical writing, research papers, documentation, and knowledge sharing.', color: '#a78bfa' },
+=======
+  { label: 'Active Members', value: 200, suffix: '+' },
+  { label: 'Events Yearly', value: 10, suffix: '+' },
+  { label: 'Projects Built', value: 30, suffix: '+' },
+  { label: 'Competitions', value: 15, suffix: '+' },
+]
+
+const DOMAINS = [
+  { emoji: '🤖', title: 'Robotics', desc: 'Combat robots, autonomous bots, line followers, and humanoid research.', color: '#06b6d4' },
+  { emoji: '🌐', title: 'IoT & Embedded', desc: 'Smart devices, sensor networks, ESP32/Arduino and cloud-connected systems.', color: '#8b5cf6' },
+  { emoji: '🛸', title: 'Drones & UAVs', desc: 'FPV racing drones, autonomous UAVs, aerial photography, and flight controllers.', color: '#f59e0b' },
+  { emoji: '⚡', title: 'Circuits & PCB', desc: 'Analog/digital circuit design, PCB layout, power electronics, and prototyping.', color: '#10b981' },
+  { emoji: '🧠', title: 'AI & Machine Learning', desc: 'Edge AI, computer vision on embedded hardware, gesture recognition, and neural networks.', color: '#f43f5e' },
+  { emoji: '🔬', title: 'Research', desc: 'Technical writing, research papers, documentation, and knowledge sharing.', color: '#a78bfa' },
+>>>>>>> 09b8d7416129074519410116bd080780d75f3ae8
 ]
 
 const fade = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-60px' }, transition: { duration: 0.5 } }
@@ -165,7 +181,11 @@ export default function Home() {
 
             <h1 style={{ fontSize: 'clamp(2.2rem, 10vw, 5rem)', lineHeight: 1.08, marginBottom: '1.5rem', color: '#f1f5f9' }}>
               Building the{' '}
+<<<<<<< HEAD
               <span className="gradient-text">Innovators</span>
+=======
+              <span className="gradient-text">INvoation</span>
+>>>>>>> 09b8d7416129074519410116bd080780d75f3ae8
               <br />of Tomorrow
             </h1>
 
@@ -216,7 +236,11 @@ export default function Home() {
             <Link to="/about" className="btn-outline">Learn More About Us →</Link>
           </motion.div>
           <motion.div {...fade} className="grid grid-cols-2 gap-4">
+<<<<<<< HEAD
             {[{ n: '2024', l: 'Year Founded' }, { n: '100+', l: 'Total Members' }, { n: '30+', l: 'Projects' }, { n: '15+', l: 'Hosted Events' }].map(s => (
+=======
+            {[{ n: '2019', l: 'Year Founded' }, { n: '200+', l: 'Members' }, { n: '30+', l: 'Projects' }, { n: '15+', l: 'Awards Won' }].map(s => (
+>>>>>>> 09b8d7416129074519410116bd080780d75f3ae8
               <div key={s.l} className="card-glass" style={{ padding: '1.5rem', textAlign: 'center' }}>
                 <div className="stat-number" style={{ fontSize: '2rem' }}>{s.n}</div>
                 <p style={{ color: '#64748b', fontSize: '0.8rem', margin: '0.25rem 0 0', fontWeight: 600 }}>{s.l}</p>
@@ -283,7 +307,11 @@ export default function Home() {
 
 
       {/* ── CTA ───────────────────────────────────────────────────────────── */}
+<<<<<<< HEAD
       {/* <section style={{ position: 'relative', padding: '6rem 0', overflow: 'hidden', background: '#050810' }}>
+=======
+      <section style={{ position: 'relative', padding: '6rem 0', overflow: 'hidden', background: '#050810' }}>
+>>>>>>> 09b8d7416129074519410116bd080780d75f3ae8
         <div className="orb orb-cyan" style={{ width: '400px', height: '400px', top: '50%', left: '10%', transform: 'translateY(-50%)', opacity: 0.2 }} />
         <div className="orb orb-purple" style={{ width: '350px', height: '350px', top: '50%', right: '10%', transform: 'translateY(-50%)', opacity: 0.2 }} />
         <div className="container-main" style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>

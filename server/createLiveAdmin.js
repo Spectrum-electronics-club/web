@@ -5,6 +5,7 @@ const User = require('./src/models/User');
 const MONGO_URI = process.argv[2];
 const EMAIL = process.argv[3] || 'admin@spectrum.com';
 const PASSWORD = process.argv[4] || 'SpectrumAdmin123!';
+const USERNAME = process.argv[5] || EMAIL.split('@')[0];
 
 if (!MONGO_URI) {
   console.log('\n❌ ERROR: Please provide your Live MongoDB URI as the first argument.');
@@ -29,7 +30,7 @@ mongoose.connect(MONGO_URI)
       console.log(`🎉 Successfully updated password for ${EMAIL}!`);
     } else {
       const newAdmin = new User({
-        username: 'admin',
+        username: USERNAME,
         email: EMAIL,
         passwordHash: passwordHash,
         role: 'admin'
@@ -37,7 +38,6 @@ mongoose.connect(MONGO_URI)
       await newAdmin.save();
       console.log(`\n🎉 Successfully created admin user in the LIVE database!`);
     }
-    
     console.log(`Email:    ${EMAIL}`);
     console.log(`Password: ${PASSWORD}`);
     console.log(`\nYou can now log into your live website using these credentials.\n`);
