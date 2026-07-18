@@ -9,7 +9,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 export default defineConfig(({ mode }) => {
   const apiUrl =
     mode === 'development'
-      ? 'http://localhost:5000/api/v1'
+      ? '/api/v1'
       : 'https://spectrum-4qtx.onrender.com/api/v1'
 
   return {
