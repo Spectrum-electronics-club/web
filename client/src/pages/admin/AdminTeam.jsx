@@ -29,6 +29,8 @@ export default function AdminTeam() {
   const [fields, setFields]     = useState(EMPTY)
   const [saving, setSaving]     = useState(false)
   const [del, setDel]           = useState(null)
+  const [uploading, setUploading] = useState(false)
+  const [uploadDone, setUploadDone] = useState(false)
 
   const [page, setPage] = useState(1)
   const [limit, setLimit] = useState(10)
@@ -59,8 +61,8 @@ export default function AdminTeam() {
     load(1, newLimit)
   }
 
-  const openCreate = () => { setEditing(null); setFields(EMPTY); setFormOpen(true) }
-  const openEdit   = m  => { setEditing(m); setFields({ ...EMPTY, ...m, skills: m.skills?.join(', ')||'', researchInterests: m.researchInterests?.join(', ')||'' }); setFormOpen(true) }
+  const openCreate = () => { setEditing(null); setFields(EMPTY); setFormOpen(true); setUploadDone(false) }
+  const openEdit   = m  => { setEditing(m); setFields({ ...EMPTY, ...m, skills: m.skills?.join(', ')||'', researchInterests: m.researchInterests?.join(', ')||'' }); setFormOpen(true); setUploadDone(false) }
   const ch = k => e => setFields(f => ({ ...f, [k]: e.target.type==='checkbox' ? e.target.checked : e.target.value }))
 
   const save = async e => {
@@ -166,28 +168,37 @@ export default function AdminTeam() {
               <div style={fl}>
                 <label style={lb}>Photo Upload</label>
                 <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', background: 'rgba(255,255,255,0.03)', padding: '0.5rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
-                  {fields.photo && <img src={fields.photo} alt="Preview" style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />}
+                  {fields.photo && <img src={fields.photo} alt="Preview" style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />}
                   <input 
                     type="file" 
-                    accept="image/*" 
+                    accept="image/*"
+                    disabled={uploading}
                     onChange={async (e) => {
                       const file = e.target.files[0]
                       if (!file) return
                       const formData = new FormData()
                       formData.append('image', file)
+                      setUploading(true)
+                      setUploadDone(false)
                       try {
                         const res = await api.post('/admin/upload', formData, {
                           headers: { 'Content-Type': 'multipart/form-data' }
                         })
                         setFields(f => ({ ...f, photo: res.data.url }))
+                        setUploadDone(true)
                       } catch (err) {
-                        alert('Image upload failed.')
+                        alert('Image upload failed. Please try again.')
+                      } finally {
+                        setUploading(false)
                       }
                     }} 
                     style={{ color: '#94a3b8', fontSize: '0.85rem' }} 
                   />
+                  {uploading && <span style={{ color: '#f59e0b', fontSize: '0.78rem', whiteSpace: 'nowrap' }}>⏳ Uploading…</span>}
+                  {uploadDone && !uploading && <span style={{ color: '#34d399', fontSize: '0.78rem', whiteSpace: 'nowrap' }}>✓ Uploaded!</span>}
                 </div>
-                <input className="input-dark" type="url" value={fields.photo} onChange={ch('photo')} placeholder="Or paste a URL..." style={{ marginTop: '0.3rem' }} />
+                <input className="input-dark" type="url" value={fields.photo} onChange={e => { ch('photo')(e); setUploadDone(false) }} placeholder="Or paste a URL..." style={{ marginTop: '0.3rem' }} />
+                {!fields.photo && <p style={{ color: '#f87171', fontSize: '0.72rem', margin: '0.25rem 0 0' }}>⚠ No photo URL set yet. Upload a file or paste a URL above.</p>}
               </div>
               <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1rem' }}>
                 <div style={fl}><label style={lb}>LinkedIn URL</label><input className="input-dark" type="url" value={fields.linkedinUrl} onChange={ch('linkedinUrl')} /></div>
@@ -205,7 +216,7 @@ export default function AdminTeam() {
               </div>
               <div style={{ display:'flex', gap:'0.75rem', justifyContent:'flex-end', paddingTop:'0.5rem' }}>
                 <button type="button" className="btn-outline" onClick={() => setFormOpen(false)}>Cancel</button>
-                <button type="submit" className="btn-glow" disabled={saving}>{saving ? 'Saving…' : 'Save Member'}</button>
+                <button type="submit" className="btn-glow" disabled={saving || uploading} title={uploading ? 'Wait for image upload to finish' : ''}>{saving ? 'Saving…' : uploading ? 'Upload in progress…' : 'Save Member'}</button>
               </div>
             </form>
           </div>
