@@ -3,6 +3,7 @@ import Button from '@/components/atoms/Button'
 import Badge from '@/components/atoms/Badge'
 import Modal from '@/components/atoms/Modal'
 import api from '@/utils/axiosInstance'
+import Pagination from '@/components/molecules/Pagination'
 
 export default function AdminAnnouncements() {
   const [announcements, setAnnouncements] = useState([])
@@ -13,12 +14,34 @@ export default function AdminAnnouncements() {
   const [fields, setFields] = useState({ title: '', body: '', isPinned: false, expiresAt: '' })
   const [saving, setSaving] = useState(false)
 
-  const load = () => {
+  const [page, setPage] = useState(1)
+  const [limit, setLimit] = useState(10)
+  const [total, setTotal] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+
+  const load = (p = page, l = limit) => {
     setLoading(true)
-    api.get('/admin/announcements').then((r) => setAnnouncements(r.data.data || r.data)).finally(() => setLoading(false))
+    api.get('/admin/announcements', { params: { page: p, limit: l } }).then((r) => {
+      setAnnouncements(r.data.data || [])
+      if (r.data.pagination) {
+        setTotal(r.data.pagination.total)
+        setTotalPages(r.data.pagination.pages)
+      }
+    }).finally(() => setLoading(false))
   }
 
-  useEffect(() => { load() }, [])
+  useEffect(() => { load(1, limit) }, [])
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage)
+    load(newPage, limit)
+  }
+
+  const handleLimitChange = (newLimit) => {
+    setLimit(newLimit)
+    setPage(1)
+    load(1, newLimit)
+  }
 
   const openCreate = () => { setEditing(null); setFields({ title: '', body: '', isPinned: false, expiresAt: '' }); setFormOpen(true) }
   const openEdit = (a) => {
@@ -102,6 +125,14 @@ export default function AdminAnnouncements() {
               ))}
             </tbody>
           </table>
+          <Pagination
+            page={page}
+            limit={limit}
+            total={total}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            onLimitChange={handleLimitChange}
+          />
         </div>
       )}
 

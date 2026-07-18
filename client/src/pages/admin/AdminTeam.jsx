@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import api from '@/utils/axiosInstance'
+import Pagination from '@/components/molecules/Pagination'
 
 const EMPTY = { fullName:'', role:'', category:'Core Team', photo:'', linkedinUrl:'', githubUrl:'', email:'', skills:'', researchInterests:'', isActive:true, order:0 }
 
@@ -29,8 +30,34 @@ export default function AdminTeam() {
   const [saving, setSaving]     = useState(false)
   const [del, setDel]           = useState(null)
 
-  const load = () => { setLoading(true); api.get('/admin/team').then(r => setMembers(r.data.data || r.data)).finally(() => setLoading(false)) }
-  useEffect(() => { load() }, [])
+  const [page, setPage] = useState(1)
+  const [limit, setLimit] = useState(10)
+  const [total, setTotal] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+
+  const load = (p = page, l = limit) => {
+    setLoading(true)
+    api.get('/admin/team', { params: { page: p, limit: l } }).then((r) => {
+      setMembers(r.data.data || [])
+      if (r.data.pagination) {
+        setTotal(r.data.pagination.total)
+        setTotalPages(r.data.pagination.pages)
+      }
+    }).finally(() => setLoading(false))
+  }
+
+  useEffect(() => { load(1, limit) }, [])
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage)
+    load(newPage, limit)
+  }
+
+  const handleLimitChange = (newLimit) => {
+    setLimit(newLimit)
+    setPage(1)
+    load(1, newLimit)
+  }
 
   const openCreate = () => { setEditing(null); setFields(EMPTY); setFormOpen(true) }
   const openEdit   = m  => { setEditing(m); setFields({ ...EMPTY, ...m, skills: m.skills?.join(', ')||'', researchInterests: m.researchInterests?.join(', ')||'' }); setFormOpen(true) }
@@ -109,6 +136,14 @@ export default function AdminTeam() {
               ))}
             </tbody>
           </table>
+          <Pagination
+            page={page}
+            limit={limit}
+            total={total}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            onLimitChange={handleLimitChange}
+          />
         </div>
       )}
 

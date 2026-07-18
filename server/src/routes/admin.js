@@ -11,6 +11,7 @@ const Publication  = require('../models/Publication')
 const Announcement = require('../models/Announcement')
 const Recruitment  = require('../models/Recruitment')
 const Contact      = require('../models/Contact')
+const { paginateQuery } = require('../utils/paginate')
 
 const router = express.Router()
 router.use(authMiddleware)
@@ -60,8 +61,11 @@ router.get('/summary', async (_req, res, next) => {
 })
 
 // ── Projects CRUD ─────────────────────────────────────────────────────────
-router.get('/projects', async (_req, res, next) => {
-  try { res.json({ data: await Project.find().sort({ createdAt: -1 }) }) } catch (err) { next(err) }
+router.get('/projects', async (req, res, next) => {
+  try {
+    const { page, limit } = req.query
+    res.json(await paginateQuery(Project, {}, { createdAt: -1 }, page, limit))
+  } catch (err) { next(err) }
 })
 router.post('/projects', async (req, res, next) => {
   try { res.status(201).json({ data: await Project.create(req.body) }) } catch (err) { next(err) }
@@ -81,8 +85,11 @@ router.delete('/projects/:id', async (req, res, next) => {
 })
 
 // ── Events CRUD ────────────────────────────────────────────────────────────
-router.get('/events', async (_req, res, next) => {
-  try { res.json({ data: await Event.find().sort({ createdAt: -1 }) }) } catch (err) { next(err) }
+router.get('/events', async (req, res, next) => {
+  try {
+    const { page, limit } = req.query
+    res.json(await paginateQuery(Event, {}, { createdAt: -1 }, page, limit))
+  } catch (err) { next(err) }
 })
 router.post('/events', async (req, res, next) => {
   try { res.status(201).json({ data: await Event.create(req.body) }) } catch (err) { next(err) }
@@ -105,8 +112,11 @@ router.delete('/events/:id', async (req, res, next) => {
 })
 
 // ── Gallery CRUD ──────────────────────────────────────────────────────────
-router.get('/gallery', async (_req, res, next) => {
-  try { res.json({ data: await Gallery.find().sort({ uploadedAt: -1 }) }) } catch (err) { next(err) }
+router.get('/gallery', async (req, res, next) => {
+  try {
+    const { page, limit } = req.query
+    res.json(await paginateQuery(Gallery, {}, { uploadedAt: -1 }, page, limit))
+  } catch (err) { next(err) }
 })
 router.post('/gallery', async (req, res, next) => {
   try { res.status(201).json({ data: await Gallery.create(req.body) }) } catch (err) { next(err) }
@@ -123,8 +133,11 @@ router.delete('/gallery/:id', async (req, res, next) => {
 })
 
 // ── Team CRUD ─────────────────────────────────────────────────────────────
-router.get('/team', async (_req, res, next) => {
-  try { res.json({ data: await TeamMember.find().sort({ order: 1 }) }) } catch (err) { next(err) }
+router.get('/team', async (req, res, next) => {
+  try {
+    const { page, limit } = req.query
+    res.json(await paginateQuery(TeamMember, {}, { order: 1 }, page, limit))
+  } catch (err) { next(err) }
 })
 router.post('/team', async (req, res, next) => {
   try { res.status(201).json({ data: await TeamMember.create(req.body) }) } catch (err) { next(err) }
@@ -141,8 +154,11 @@ router.delete('/team/:id', async (req, res, next) => {
 })
 
 // ── Publications CRUD ─────────────────────────────────────────────────────
-router.get('/publications', async (_req, res, next) => {
-  try { res.json({ data: await Publication.find().sort({ publishedDate: -1 }) }) } catch (err) { next(err) }
+router.get('/publications', async (req, res, next) => {
+  try {
+    const { page, limit } = req.query
+    res.json(await paginateQuery(Publication, {}, { publishedDate: -1 }, page, limit))
+  } catch (err) { next(err) }
 })
 router.post('/publications', async (req, res, next) => {
   try { res.status(201).json({ data: await Publication.create(req.body) }) } catch (err) { next(err) }
@@ -159,8 +175,11 @@ router.delete('/publications/:id', async (req, res, next) => {
 })
 
 // ── Announcements CRUD ────────────────────────────────────────────────────
-router.get('/announcements', async (_req, res, next) => {
-  try { res.json({ data: await Announcement.find().sort({ createdAt: -1 }) }) } catch (err) { next(err) }
+router.get('/announcements', async (req, res, next) => {
+  try {
+    const { page, limit } = req.query
+    res.json(await paginateQuery(Announcement, {}, { createdAt: -1 }, page, limit))
+  } catch (err) { next(err) }
 })
 router.post('/announcements', async (req, res, next) => {
   try { res.status(201).json({ data: await Announcement.create(req.body) }) } catch (err) { next(err) }
@@ -177,26 +196,48 @@ router.delete('/announcements/:id', async (req, res, next) => {
 })
 
 // ── Recruitment management ────────────────────────────────────────────────
-router.get('/recruitment', async (_req, res, next) => {
-  try { res.json({ data: await Recruitment.find().sort({ submittedAt: -1 }) }) } catch (err) { next(err) }
+router.get('/recruitment', async (req, res, next) => {
+  try {
+    const { page, limit, status } = req.query
+    const filter = {}
+    if (status && status !== 'all') filter.status = status
+    res.json(await paginateQuery(Recruitment, filter, { submittedAt: -1 }, page, limit))
+  } catch (err) { next(err) }
 })
-router.patch('/recruitment/:id', async (req, res, next) => {
+router.patch(['/recruitment/:id', '/recruitment/:id/status'], async (req, res, next) => {
   try {
     const doc = await Recruitment.findByIdAndUpdate(req.params.id, { status: req.body.status }, { new: true })
     if (!doc) return res.status(404).json({ status: 'error', message: 'Not found', code: 404 })
     res.json({ data: doc })
   } catch (err) { next(err) }
 })
+router.delete('/recruitment/:id', async (req, res, next) => {
+  try {
+    const doc = await Recruitment.findByIdAndDelete(req.params.id)
+    if (!doc) return res.status(404).json({ status: 'error', message: 'Not found', code: 404 })
+    res.status(204).end()
+  } catch (err) { next(err) }
+})
 
 // ── Contact queries ───────────────────────────────────────────────────────
-router.get('/contacts', async (_req, res, next) => {
-  try { res.json({ data: await Contact.find().sort({ submittedAt: -1 }) }) } catch (err) { next(err) }
+router.get('/contacts', async (req, res, next) => {
+  try {
+    const { page, limit } = req.query
+    res.json(await paginateQuery(Contact, {}, { submittedAt: -1 }, page, limit))
+  } catch (err) { next(err) }
 })
-router.patch('/contacts/:id', async (req, res, next) => {
+router.patch(['/contacts/:id', '/contacts/:id/read'], async (req, res, next) => {
   try {
     const doc = await Contact.findByIdAndUpdate(req.params.id, { isRead: true }, { new: true })
     if (!doc) return res.status(404).json({ status: 'error', message: 'Not found', code: 404 })
     res.json({ data: doc })
+  } catch (err) { next(err) }
+})
+router.delete('/contacts/:id', async (req, res, next) => {
+  try {
+    const doc = await Contact.findByIdAndDelete(req.params.id)
+    if (!doc) return res.status(404).json({ status: 'error', message: 'Not found', code: 404 })
+    res.status(204).end()
   } catch (err) { next(err) }
 })
 

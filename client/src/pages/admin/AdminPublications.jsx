@@ -5,6 +5,7 @@ import Modal from '@/components/atoms/Modal'
 import Input from '@/components/atoms/Input'
 import Textarea from '@/components/atoms/Textarea'
 import api from '@/utils/axiosInstance'
+import Pagination from '@/components/molecules/Pagination'
 
 const EMPTY = { title: '', authors: '', abstract: '', publishedDate: '', pdfUrl: '', externalUrl: '', tags: '' }
 
@@ -17,12 +18,34 @@ export default function AdminPublications() {
   const [fields, setFields] = useState(EMPTY)
   const [saving, setSaving] = useState(false)
 
-  const load = () => {
+  const [page, setPage] = useState(1)
+  const [limit, setLimit] = useState(10)
+  const [total, setTotal] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+
+  const load = (p = page, l = limit) => {
     setLoading(true)
-    api.get('/admin/publications').then((r) => setPubs(r.data.data || r.data)).finally(() => setLoading(false))
+    api.get('/admin/publications', { params: { page: p, limit: l } }).then((r) => {
+      setPubs(r.data.data || [])
+      if (r.data.pagination) {
+        setTotal(r.data.pagination.total)
+        setTotalPages(r.data.pagination.pages)
+      }
+    }).finally(() => setLoading(false))
   }
 
-  useEffect(() => { load() }, [])
+  useEffect(() => { load(1, limit) }, [])
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage)
+    load(newPage, limit)
+  }
+
+  const handleLimitChange = (newLimit) => {
+    setLimit(newLimit)
+    setPage(1)
+    load(1, newLimit)
+  }
 
   const openCreate = () => { setEditing(null); setFields(EMPTY); setFormOpen(true) }
   const openEdit = (p) => {
@@ -116,6 +139,14 @@ export default function AdminPublications() {
               ))}
             </tbody>
           </table>
+          <Pagination
+            page={page}
+            limit={limit}
+            total={total}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            onLimitChange={handleLimitChange}
+          />
         </div>
       )}
 

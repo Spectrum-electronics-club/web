@@ -23,18 +23,18 @@ function Counter({ end, suffix = '' }) {
 
 const STATS = [
   { label: 'Active Members', value: 200, suffix: '+' },
-  { label: 'Events Yearly',  value: 10,  suffix: '+' },
-  { label: 'Projects Built', value: 30,  suffix: '+' },
-  { label: 'Competitions',   value: 15,  suffix: '+' },
+  { label: 'Events Yearly', value: 10, suffix: '+' },
+  { label: 'Projects Built', value: 30, suffix: '+' },
+  { label: 'Competitions', value: 15, suffix: '+' },
 ]
 
 const DOMAINS = [
-  { emoji: '🤖', title: 'Robotics',           desc: 'Combat robots, autonomous bots, line followers, and humanoid research.', color: '#06b6d4' },
-  { emoji: '🌐', title: 'IoT & Embedded',      desc: 'Smart devices, sensor networks, ESP32/Arduino and cloud-connected systems.', color: '#8b5cf6' },
-  { emoji: '🛸', title: 'Drones & UAVs',       desc: 'FPV racing drones, autonomous UAVs, aerial photography, and flight controllers.', color: '#f59e0b' },
-  { emoji: '⚡', title: 'Circuits & PCB',      desc: 'Analog/digital circuit design, PCB layout, power electronics, and prototyping.', color: '#10b981' },
+  { emoji: '🤖', title: 'Robotics', desc: 'Combat robots, autonomous bots, line followers, and humanoid research.', color: '#06b6d4' },
+  { emoji: '🌐', title: 'IoT & Embedded', desc: 'Smart devices, sensor networks, ESP32/Arduino and cloud-connected systems.', color: '#8b5cf6' },
+  { emoji: '🛸', title: 'Drones & UAVs', desc: 'FPV racing drones, autonomous UAVs, aerial photography, and flight controllers.', color: '#f59e0b' },
+  { emoji: '⚡', title: 'Circuits & PCB', desc: 'Analog/digital circuit design, PCB layout, power electronics, and prototyping.', color: '#10b981' },
   { emoji: '🧠', title: 'AI & Machine Learning', desc: 'Edge AI, computer vision on embedded hardware, gesture recognition, and neural networks.', color: '#f43f5e' },
-  { emoji: '🔬', title: 'Research',            desc: 'Technical writing, research papers, documentation, and knowledge sharing.', color: '#a78bfa' },
+  { emoji: '🔬', title: 'Research', desc: 'Technical writing, research papers, documentation, and knowledge sharing.', color: '#a78bfa' },
 ]
 
 const fade = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-60px' }, transition: { duration: 0.5 } }
@@ -42,8 +42,8 @@ const fade = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }
 // ── Featured projects fetcher ──────────────────────────────────────────────
 function FeaturedProjects() {
   const [projects, setProjects] = useState([])
-  const [loading, setLoading]   = useState(true)
-  const [error, setError]       = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     api.get('/projects?featured=true')
@@ -54,7 +54,7 @@ function FeaturedProjects() {
 
   if (loading) return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px,1fr))', gap: '1.5rem' }}>
-      {[1,2,3,4].map(i => <div key={i} className="skeleton" style={{ height: '220px' }} />)}
+      {[1, 2, 3, 4].map(i => <div key={i} className="skeleton" style={{ height: '220px' }} />)}
     </div>
   )
   if (error || !projects.length) return (
@@ -73,8 +73,10 @@ function FeaturedProjects() {
               <span className={p.status === 'ongoing' ? 'badge-green' : 'badge-purple'}>{p.status}</span>
             </div>
             <h3 style={{ fontFamily: "'Space Grotesk',sans-serif", fontSize: '1rem', fontWeight: 700, color: '#e2e8f0', marginBottom: '0.5rem' }}>{p.title}</h3>
-            <p style={{ color: '#64748b', fontSize: '0.85rem', lineHeight: 1.6,
-              display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+            <p style={{
+              color: '#64748b', fontSize: '0.85rem', lineHeight: 1.6,
+              display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden'
+            }}>
               {p.description}
             </p>
           </div>
@@ -92,13 +94,13 @@ function UpcomingEvents() {
   useEffect(() => {
     api.get('/events?upcoming=true')
       .then(r => setEvents(r.data.data || r.data))
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false))
   }, [])
 
   if (loading) return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      {[1,2,3].map(i => <div key={i} className="skeleton" style={{ height: '100px' }} />)}
+      {[1, 2, 3].map(i => <div key={i} className="skeleton" style={{ height: '100px' }} />)}
     </div>
   )
   if (!events.length) return <p style={{ color: '#64748b', textAlign: 'center', padding: '2rem 0' }}>No upcoming events.</p>
@@ -107,9 +109,11 @@ function UpcomingEvents() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       {events.map(ev => (
         <div key={ev._id} className="card-glass" style={{ padding: '1.25rem 1.5rem', display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
-          <div style={{ flexShrink: 0, width: '48px', height: '48px', borderRadius: '12px',
+          <div style={{
+            flexShrink: 0, width: '48px', height: '48px', borderRadius: '12px',
             background: 'rgba(0,212,255,0.1)', border: '1px solid rgba(0,212,255,0.2)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem' }}>
+            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem'
+          }}>
             🎪
           </div>
           <div style={{ flex: 1 }}>
@@ -120,8 +124,10 @@ function UpcomingEvents() {
               )}
             </div>
             <h3 style={{ fontFamily: "'Space Grotesk',sans-serif", fontSize: '0.95rem', fontWeight: 700, color: '#e2e8f0', margin: '0 0 0.25rem' }}>{ev.title}</h3>
-            <p style={{ color: '#64748b', fontSize: '0.8rem', margin: 0,
-              display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+            <p style={{
+              color: '#64748b', fontSize: '0.8rem', margin: 0,
+              display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden'
+            }}>
               {ev.description}
             </p>
           </div>
@@ -146,7 +152,7 @@ export default function Home() {
       <section style={{ position: 'relative', minHeight: '90vh', display: 'flex', alignItems: 'center', overflow: 'hidden' }}
         className="bg-grid">
         {/* Glow orbs */}
-        <div className="orb orb-cyan"  style={{ width: '500px', height: '500px', top: '-100px', left: '-100px' }} />
+        <div className="orb orb-cyan" style={{ width: '500px', height: '500px', top: '-100px', left: '-100px' }} />
         <div className="orb orb-purple" style={{ width: '400px', height: '400px', bottom: '-80px', right: '5%' }} />
 
         <div className="container-main" style={{ position: 'relative', zIndex: 1, paddingTop: '6rem', paddingBottom: '6rem' }}>
@@ -159,7 +165,7 @@ export default function Home() {
 
             <h1 style={{ fontSize: 'clamp(2.2rem, 10vw, 5rem)', lineHeight: 1.08, marginBottom: '1.5rem', color: '#f1f5f9' }}>
               Building the{' '}
-              <span className="gradient-text">Engineers</span>
+              <span className="gradient-text">INvoation</span>
               <br />of Tomorrow
             </h1>
 
@@ -210,7 +216,7 @@ export default function Home() {
             <Link to="/about" className="btn-outline">Learn More About Us →</Link>
           </motion.div>
           <motion.div {...fade} className="grid grid-cols-2 gap-4">
-            {[{ n:'2019', l:'Year Founded' },{ n:'200+', l:'Members' },{ n:'30+', l:'Projects' },{ n:'15+', l:'Awards Won' }].map(s => (
+            {[{ n: '2019', l: 'Year Founded' }, { n: '200+', l: 'Members' }, { n: '30+', l: 'Projects' }, { n: '15+', l: 'Awards Won' }].map(s => (
               <div key={s.l} className="card-glass" style={{ padding: '1.5rem', textAlign: 'center' }}>
                 <div className="stat-number" style={{ fontSize: '2rem' }}>{s.n}</div>
                 <p style={{ color: '#64748b', fontSize: '0.8rem', margin: '0.25rem 0 0', fontWeight: 600 }}>{s.l}</p>
@@ -317,7 +323,7 @@ export default function Home() {
 
       {/* ── CTA ───────────────────────────────────────────────────────────── */}
       <section style={{ position: 'relative', padding: '6rem 0', overflow: 'hidden', background: '#050810' }}>
-        <div className="orb orb-cyan"   style={{ width: '400px', height: '400px', top: '50%', left: '10%', transform: 'translateY(-50%)', opacity: 0.2 }} />
+        <div className="orb orb-cyan" style={{ width: '400px', height: '400px', top: '50%', left: '10%', transform: 'translateY(-50%)', opacity: 0.2 }} />
         <div className="orb orb-purple" style={{ width: '350px', height: '350px', top: '50%', right: '10%', transform: 'translateY(-50%)', opacity: 0.2 }} />
         <div className="container-main" style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
           <motion.div {...fade}>
