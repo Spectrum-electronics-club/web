@@ -56,12 +56,12 @@ export default function Navbar() {
           <div style={{ display: 'flex', gap: '0.4rem' }}>
             {/* Logo 1 */}
             {logo1 && (
-              <img src={logo1} alt="Logo 1" style={{ width: '36px', height: '36px', borderRadius: '8px', objectFit: 'contain' }} />
+              <img src={logo1} alt="Logo 1" style={{ height: '44px', width: 'auto', maxWidth: '160px', borderRadius: '8px', objectFit: 'contain' }} />
             )}
 
             {/* Logo 2 */}
             {logo2 && (
-              <img src={logo2} alt="Logo 2" style={{ width: '36px', height: '36px', borderRadius: '8px', objectFit: 'contain' }} />
+              <img src={logo2} alt="Logo 2" style={{ height: '44px', width: 'auto', maxWidth: '160px', borderRadius: '8px', objectFit: 'contain' }} />
             )}
           </div>
           <span style={{
