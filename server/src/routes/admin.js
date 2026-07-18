@@ -3,7 +3,7 @@ const multer       = require('multer')
 const path         = require('path')
 const fs           = require('fs')
 const cloudinary   = require('cloudinary').v2
-const { CloudinaryStorage } = require('multer-storage-cloudinary')
+const { Readable } = require('stream')
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -24,20 +24,12 @@ const { paginateQuery } = require('../utils/paginate')
 const router = express.Router()
 router.use(authMiddleware)
 
-// ── Image upload ──────────────────────────────────────────────────────────
+// ── Image upload (memory → Cloudinary stream) ─────────────────────────────
 const ALLOWED_MIME = ['image/jpeg', 'image/png', 'image/webp']
 const MAX_SIZE     = 10 * 1024 * 1024 // 10 MB
 
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: 'ngnd_uploads',
-    allowed_formats: ['jpeg', 'png', 'jpg', 'webp'],
-  },
-})
-
 const upload = multer({
-  storage,
+  storage: multer.memoryStorage(),
   limits: { fileSize: MAX_SIZE },
   fileFilter: (_req, file, cb) => {
     if (ALLOWED_MIME.includes(file.mimetype)) cb(null, true)
@@ -45,10 +37,28 @@ const upload = multer({
   },
 })
 
-router.post('/upload', upload.single('image'), (req, res) => {
-  if (!req.file) return res.status(400).json({ status: 'error', message: 'No file uploaded', code: 400 })
-  const url = req.file.path
-  res.json({ url })
+// Helper: upload a buffer to Cloudinary and return the secure_url
+function uploadToCloudinary(buffer, options = {}) {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      { folder: 'ngnd_uploads', ...options },
+      (err, result) => {
+        if (err) return reject(err)
+        resolve(result)
+      }
+    )
+    Readable.from(buffer).pipe(uploadStream)
+  })
+}
+
+router.post('/upload', upload.single('image'), async (req, res, next) => {
+  try {
+    if (!req.file) return res.status(400).json({ status: 'error', message: 'No file uploaded', code: 400 })
+    const result = await uploadToCloudinary(req.file.buffer)
+    res.json({ url: result.secure_url })
+  } catch (err) {
+    next(err)
+  }
 })
 
 // ── Dashboard summary ─────────────────────────────────────────────────────
