@@ -4,27 +4,31 @@ import { HiMenuAlt3, HiX } from 'react-icons/hi'
 import api from '@/utils/axiosInstance'
 
 const navLinks = [
-  { to: '/',             label: 'Home' },
-  { to: '/events',       label: 'Events & Competitions' },
-  { to: '/projects',     label: 'Projects' },
-  { to: '/team',         label: 'Team' },
-  { to: '/gallery',      label: 'Photo Gallery' },
-  { to: '/about',        label: 'About Us' },
+  { to: '/', label: 'Home' },
+  { to: '/events', label: 'Events & Competitions' },
+  { to: '/projects', label: 'Projects' },
+  { to: '/team', label: 'Team' },
+  { to: '/gallery', label: 'Photo Gallery' },
+  { to: '/about', label: 'About Us' },
 ]
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [logo1, setLogo1] = useState('')
-  const [logo2, setLogo2] = useState('')
+  const [logo1, setLogo1] = useState(localStorage.getItem('spectrum_logo1') || '')
+  const [logo2, setLogo2] = useState(localStorage.getItem('spectrum_logo2') || '')
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener('scroll', onScroll)
-    
+
     api.get('/settings').then(res => {
-      setLogo1(res.data?.data?.logo1Url || '')
-      setLogo2(res.data?.data?.logo2Url || '')
+      const l1 = res.data?.data?.logo1Url || ''
+      const l2 = res.data?.data?.logo2Url || ''
+      setLogo1(l1)
+      setLogo2(l2)
+      if (l1) localStorage.setItem('spectrum_logo1', l1)
+      if (l2) localStorage.setItem('spectrum_logo2', l2)
     }).catch(err => console.error('Failed to load logos', err))
 
     return () => window.removeEventListener('scroll', onScroll)
@@ -51,27 +55,13 @@ export default function Navbar() {
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
           <div style={{ display: 'flex', gap: '0.4rem' }}>
             {/* Logo 1 */}
-            {logo1 ? (
+            {logo1 && (
               <img src={logo1} alt="Logo 1" style={{ width: '36px', height: '36px', borderRadius: '8px', objectFit: 'contain' }} />
-            ) : (
-              <div style={{
-                width: '36px', height: '36px', borderRadius: '8px',
-                background: 'rgba(0,212,255,0.1)', border: '1px dashed rgba(0,212,255,0.4)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: '#22d3ee', fontSize: '0.6rem', fontWeight: 700
-              }}>L1</div>
             )}
-            
+
             {/* Logo 2 */}
-            {logo2 ? (
+            {logo2 && (
               <img src={logo2} alt="Logo 2" style={{ width: '36px', height: '36px', borderRadius: '8px', objectFit: 'contain' }} />
-            ) : (
-              <div style={{
-                width: '36px', height: '36px', borderRadius: '8px',
-                background: 'rgba(139,92,246,0.1)', border: '1px dashed rgba(139,92,246,0.4)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: '#a78bfa', fontSize: '0.6rem', fontWeight: 700
-              }}>L2</div>
             )}
           </div>
           <span style={{
