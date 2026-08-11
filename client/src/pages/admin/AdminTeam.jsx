@@ -2,20 +2,18 @@ import { useEffect, useState } from 'react'
 import api from '@/utils/axiosInstance'
 import Pagination from '@/components/molecules/Pagination'
 
-const EMPTY = { fullName:'', role:'', category:'Core Team', photo:'', linkedinUrl:'', githubUrl:'', email:'', skills:'', researchInterests:'', isActive:true, order:0 }
+const EMPTY = { fullName:'', role:'', category:'Technical Team', tier:'None', photo:'', linkedinUrl:'', githubUrl:'', email:'', skills:'', researchInterests:'', isActive:true, order:0 }
 
 const CATEGORIES = [
-  'Faculty',
-  'Leadership',
+  'Faculty Members',
+  'Leads',
   'Heads',
   'Deputy Heads',
   'Technical Team',
   'Presentation Team',
   'On-Ground Team',
   'Graphics Designing Team',
-  'Audio Video Team',
-  'Logistics Team',
-  'Core Team' // fallback
+  'Audio Video Team'
 ]
 
 const fl = { display:'flex', flexDirection:'column', gap:'0.3rem' }
@@ -102,7 +100,7 @@ export default function AdminTeam() {
           <table style={{ width:'100%', borderCollapse:'collapse', fontSize:'0.875rem' }}>
             <thead>
               <tr style={{ borderBottom:'1px solid rgba(0,212,255,0.08)' }}>
-                {['Name','Role','Category','Status','Order','Actions'].map(h => (
+                {['Name','Role','Category','Tier','Status','Order','Actions'].map(h => (
                   <th key={h} style={{ padding:'0.875rem 1rem', textAlign:'left', color:'#64748b', fontWeight:600, fontSize:'0.75rem', textTransform:'uppercase', letterSpacing:'0.08em' }}>{h}</th>
                 ))}
               </tr>
@@ -119,7 +117,8 @@ export default function AdminTeam() {
                     </div>
                   </td>
                   <td style={{ padding:'0.875rem 1rem', color:'#22d3ee', fontSize:'0.8rem' }}>{m.role}</td>
-                  <td style={{ padding:'0.875rem 1rem', color:'#94a3b8', fontSize:'0.8rem' }}>{m.category || 'Core Team'}</td>
+                  <td style={{ padding:'0.875rem 1rem', color:'#94a3b8', fontSize:'0.8rem' }}>{m.category || 'Technical Team'}</td>
+                  <td style={{ padding:'0.875rem 1rem', color:'#c084fc', fontSize:'0.8rem' }}>{m.tier !== 'None' ? m.tier : '-'}</td>
                   <td style={{ padding:'0.875rem 1rem' }}>
                     <span style={{ padding:'0.2rem 0.6rem', borderRadius:'999px', fontSize:'0.72rem', fontWeight:600,
                       background: m.isActive ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.1)',
@@ -159,11 +158,21 @@ export default function AdminTeam() {
                 <div style={fl}><label style={lb}>Full Name *</label><input className="input-dark" required value={fields.fullName} onChange={ch('fullName')} /></div>
                 <div style={fl}><label style={lb}>Role *</label><input className="input-dark" required value={fields.role} onChange={ch('role')} /></div>
               </div>
-              <div style={fl}>
-                <label style={lb}>Category *</label>
-                <select className="input-dark" required value={fields.category} onChange={ch('category')}>
-                  {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-                </select>
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1rem' }}>
+                <div style={fl}>
+                  <label style={lb}>Category *</label>
+                  <select className="input-dark" required value={fields.category} onChange={ch('category')}>
+                    {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </div>
+                <div style={fl}>
+                  <label style={lb}>Tier</label>
+                  <select className="input-dark" value={fields.tier} onChange={ch('tier')}>
+                    <option value="None">None</option>
+                    <option value="Senior Associate">Senior Associate</option>
+                    <option value="Junior Associate">Junior Associate</option>
+                  </select>
+                </div>
               </div>
               <div style={fl}>
                 <label style={lb}>Photo Upload</label>
