@@ -13,7 +13,7 @@ async function paginateQuery(model, queryFilter = {}, sort = {}, page, limit) {
   const skip = (pageNum - 1) * limitNum;
 
   const [data, total] = await Promise.all([
-    model.find(queryFilter).sort(sort).skip(skip).limit(limitNum),
+    model.find(queryFilter).sort(sort).skip(skip).limit(limitNum).lean(),
     model.countDocuments(queryFilter)
   ]);
 

@@ -118,7 +118,15 @@ export default function AdminTeam() {
                   </td>
                   <td style={{ padding:'0.875rem 1rem', color:'#22d3ee', fontSize:'0.8rem' }}>{m.role}</td>
                   <td style={{ padding:'0.875rem 1rem', color:'#94a3b8', fontSize:'0.8rem' }}>{m.category || 'Technical Team'}</td>
-                  <td style={{ padding:'0.875rem 1rem', color:'#c084fc', fontSize:'0.8rem' }}>{m.tier && m.tier !== 'None' ? m.tier : '-'}</td>
+                  <td style={{ padding:'0.875rem 1rem', color:'#c084fc', fontSize:'0.8rem' }}>
+                    {m.tier && m.tier !== 'None' 
+                      ? m.tier 
+                      : (m.role && (m.role.toLowerCase().includes('junior associate') || m.role.toLowerCase().includes('junior assiociate')))
+                        ? 'Junior Associate'
+                        : (m.role && m.role.toLowerCase().includes('senior associate'))
+                          ? 'Senior Associate'
+                          : '-'}
+                  </td>
                   <td style={{ padding:'0.875rem 1rem' }}>
                     <span style={{ padding:'0.2rem 0.6rem', borderRadius:'999px', fontSize:'0.72rem', fontWeight:600,
                       background: m.isActive ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.1)',
