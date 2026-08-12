@@ -5,7 +5,7 @@ import PageTransition from '@/components/molecules/PageTransition'
 import api from '@/utils/axiosInstance'
 
 const CATEGORY_ORDER = [
-  'Faculty Members',
+  'Faculty',
   'Leads',
   'Heads',
   'Deputy Heads',
@@ -34,7 +34,7 @@ const FallbackAvatar = ({ text }) => {
 }
 
 const SectionHeader = ({ category }) => {
-  const hasBigTitle = category === 'Faculty Members'
+  const hasBigTitle = category === 'Faculty'
   
   return (
     <div style={{ textAlign: 'center', marginBottom: '2.5rem', marginTop: '4rem' }}>
@@ -46,7 +46,7 @@ const SectionHeader = ({ category }) => {
         <div style={{ height: '1px', background: 'linear-gradient(270deg, transparent, rgba(56, 189, 248, 0.4))', width: '20%', maxWidth: '100px' }} />
       </div>
       
-      {category === 'Faculty Members' && (
+      {category === 'Faculty' && (
         <h2 style={{ fontSize: '2.5rem', margin: 0, fontWeight: 700 }}>
           <span style={{ color: '#fff' }}>Faculty</span> <span style={{ color: '#60a5fa' }}>Mentors</span>
         </h2>
