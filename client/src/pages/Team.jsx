@@ -55,21 +55,24 @@ const SectionHeader = ({ category }) => {
   )
 }
 
-const MemberCard = ({ m, i }) => (
-  <motion.div key={m._id} {...fade} transition={{ delay: i * 0.05 }} style={{ width: '240px' }}>
-    <div style={{ 
-      background: '#131127',
-      border: '1px solid rgba(255, 255, 255, 0.05)',
-      borderRadius: '16px',
-      padding: '2rem 1.5rem',
-      textAlign: 'center',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: '1rem',
-      height: '100%',
-      boxShadow: '0 10px 30px -10px rgba(0,0,0,0.5)'
-    }}>
+const MemberCard = ({ m, i }) => {
+  const isJunior = m.tier === 'Junior Associate';
+  
+  return (
+    <motion.div key={m._id} {...fade} transition={{ delay: i * 0.05 }} style={{ width: '240px' }}>
+      <div style={{ 
+        background: isJunior ? 'linear-gradient(145deg, #161430 0%, #1e1b4b 100%)' : '#131127',
+        border: isJunior ? '1px solid rgba(129, 140, 248, 0.2)' : '1px solid rgba(255, 255, 255, 0.05)',
+        borderRadius: '16px',
+        padding: '2rem 1.5rem',
+        textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '1rem',
+        height: '100%',
+        boxShadow: isJunior ? '0 10px 30px -10px rgba(99, 102, 241, 0.2)' : '0 10px 30px -10px rgba(0,0,0,0.5)'
+      }}>
       
       {m.photo && m.photo.trim() !== '' ? (
         <img
@@ -135,7 +138,8 @@ const MemberCard = ({ m, i }) => (
       )}
     </div>
   </motion.div>
-)
+  )
+}
 
 export default function Team() {
   const [members, setMembers] = useState([])
