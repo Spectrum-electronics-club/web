@@ -37,7 +37,7 @@ export default function AdminTeam() {
 
   const load = (p = page, l = limit) => {
     setLoading(true)
-    api.get('/admin/team', { params: { page: p, limit: l } }).then((r) => {
+    api.get('/admin/team', { params: { page: p, limit: l, _t: Date.now() } }).then((r) => {
       setMembers(r.data.data || [])
       if (r.data.pagination) {
         setTotal(r.data.pagination.total)

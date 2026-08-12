@@ -56,13 +56,15 @@ const SectionHeader = ({ category }) => {
 }
 
 const MemberCard = ({ m, i }) => {
-  const isJunior = m.tier === 'Junior Associate';
+  // Check tier, but also add a fallback to check the role string (handling the 'assiociate' typo just in case)
+  const isJunior = m.tier === 'Junior Associate' || 
+                   (m.role && (m.role.toLowerCase().includes('junior associate') || m.role.toLowerCase().includes('junior assiociate')));
   
   return (
     <motion.div key={m._id} {...fade} transition={{ delay: i * 0.05 }} style={{ width: '240px' }}>
       <div style={{ 
-        background: isJunior ? '#0a1929' : '#131127',
-        border: isJunior ? '1px solid #00f3ff' : '1px solid rgba(255, 255, 255, 0.05)',
+        background: isJunior ? 'linear-gradient(145deg, #1f1c07 0%, #292408 100%)' : '#131127',
+        border: isJunior ? '1px solid rgba(234, 179, 8, 0.5)' : '1px solid rgba(255, 255, 255, 0.05)',
         borderRadius: '16px',
         padding: '2rem 1.5rem',
         textAlign: 'center',
@@ -71,7 +73,7 @@ const MemberCard = ({ m, i }) => {
         alignItems: 'center',
         gap: '1rem',
         height: '100%',
-        boxShadow: isJunior ? '0 0 15px rgba(0, 243, 255, 0.4), inset 0 0 10px rgba(0, 243, 255, 0.1)' : '0 10px 30px -10px rgba(0,0,0,0.5)'
+        boxShadow: isJunior ? '0 10px 30px -5px rgba(234, 179, 8, 0.25), inset 0 0 15px rgba(234, 179, 8, 0.05)' : '0 10px 30px -10px rgba(0,0,0,0.5)'
       }}>
       
       {m.photo && m.photo.trim() !== '' ? (
