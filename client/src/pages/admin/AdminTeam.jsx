@@ -60,7 +60,7 @@ export default function AdminTeam() {
   }
 
   const openCreate = () => { setEditing(null); setFields(EMPTY); setFormOpen(true); setUploadDone(false) }
-  const openEdit   = m  => { setEditing(m); setFields({ ...EMPTY, ...m, skills: m.skills?.join(', ')||'', researchInterests: m.researchInterests?.join(', ')||'' }); setFormOpen(true); setUploadDone(false) }
+  const openEdit   = m  => { setEditing(m); setFields({ ...EMPTY, ...m, tier: m.tier || 'None', skills: m.skills?.join(', ')||'', researchInterests: m.researchInterests?.join(', ')||'' }); setFormOpen(true); setUploadDone(false) }
   const ch = k => e => setFields(f => ({ ...f, [k]: e.target.type==='checkbox' ? e.target.checked : e.target.value }))
 
   const save = async e => {
@@ -118,7 +118,7 @@ export default function AdminTeam() {
                   </td>
                   <td style={{ padding:'0.875rem 1rem', color:'#22d3ee', fontSize:'0.8rem' }}>{m.role}</td>
                   <td style={{ padding:'0.875rem 1rem', color:'#94a3b8', fontSize:'0.8rem' }}>{m.category || 'Technical Team'}</td>
-                  <td style={{ padding:'0.875rem 1rem', color:'#c084fc', fontSize:'0.8rem' }}>{m.tier !== 'None' ? m.tier : '-'}</td>
+                  <td style={{ padding:'0.875rem 1rem', color:'#c084fc', fontSize:'0.8rem' }}>{m.tier && m.tier !== 'None' ? m.tier : '-'}</td>
                   <td style={{ padding:'0.875rem 1rem' }}>
                     <span style={{ padding:'0.2rem 0.6rem', borderRadius:'999px', fontSize:'0.72rem', fontWeight:600,
                       background: m.isActive ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.1)',
