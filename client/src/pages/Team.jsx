@@ -152,7 +152,9 @@ export default function Team() {
   const groupedMembers = useMemo(() => {
     const groups = {}
     members.forEach(m => {
-      const cat = m.category || 'Technical Team'
+      let cat = m.category || 'Technical Team'
+      if (cat === 'Faculty Members') cat = 'Faculty'
+      
       if (!groups[cat]) groups[cat] = []
       groups[cat].push(m)
     })
