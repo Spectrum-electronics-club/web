@@ -61,8 +61,8 @@ const MemberCard = ({ m, i }) => {
   return (
     <motion.div key={m._id} {...fade} transition={{ delay: i * 0.05 }} style={{ width: '240px' }}>
       <div style={{ 
-        background: isJunior ? 'linear-gradient(145deg, #161430 0%, #1e1b4b 100%)' : '#131127',
-        border: isJunior ? '1px solid rgba(129, 140, 248, 0.2)' : '1px solid rgba(255, 255, 255, 0.05)',
+        background: isJunior ? '#0a1929' : '#131127',
+        border: isJunior ? '1px solid #00f3ff' : '1px solid rgba(255, 255, 255, 0.05)',
         borderRadius: '16px',
         padding: '2rem 1.5rem',
         textAlign: 'center',
@@ -71,7 +71,7 @@ const MemberCard = ({ m, i }) => {
         alignItems: 'center',
         gap: '1rem',
         height: '100%',
-        boxShadow: isJunior ? '0 10px 30px -10px rgba(99, 102, 241, 0.2)' : '0 10px 30px -10px rgba(0,0,0,0.5)'
+        boxShadow: isJunior ? '0 0 15px rgba(0, 243, 255, 0.4), inset 0 0 10px rgba(0, 243, 255, 0.1)' : '0 10px 30px -10px rgba(0,0,0,0.5)'
       }}>
       
       {m.photo && m.photo.trim() !== '' ? (
