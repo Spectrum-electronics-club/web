@@ -24,7 +24,7 @@ const settingsRoutes = require('./routes/settings')
 const app = express()
 
 // Trust proxy is REQUIRED for Vercel/Render so the rate limiter doesn't block everyone at once
-app.set('trust proxy', 1)
+app.set('trust proxy', 2)
 // ── Security ─────────────────────────────────────────────────────────────
 app.use(helmet())
 app.use(cors({
