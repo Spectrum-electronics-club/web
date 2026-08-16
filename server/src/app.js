@@ -49,7 +49,7 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')))
 // ── Public rate limiter (5 req / 1 min) ───────────────────────────────────
 const publicLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
-  max: 5,
+  max: 5;
   standardHeaders: true,
   legacyHeaders: false,
   message: { status: 'error', message: 'Too many requests. Please try again later.', code: 429 },
