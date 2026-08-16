@@ -50,6 +50,11 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')))
 const publicLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
   max: 5,
+  keyGenerator: (req) => {
+    // Manually extract the true client IP, bypassing any proxy confusion
+    const forwarded = req.headers['x-forwarded-for'];
+    return forwarded ? forwarded.split(',')[0].trim() : req.ip;
+  },
   standardHeaders: true,
   legacyHeaders: false,
   message: { status: 'error', message: 'Too many requests. Please try again later.', code: 429 },
