@@ -46,10 +46,10 @@ app.use(express.urlencoded({ extended: true }))
 // ── Static uploads ────────────────────────────────────────────────────────
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')))
 
-// ── Public rate limiter (5 req / 1 min) ───────────────────────────────────
+// ── Public rate limiter (100 req / 1 min) ───────────────────────────────────
 const publicLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
-  max: 5,
+  max: 100,
   keyGenerator: (req) => {
     // Manually extract the true client IP, bypassing any proxy confusion
     const forwarded = req.headers['x-forwarded-for'];

@@ -4,7 +4,7 @@ const PORT = process.env.PORT || 5000;
 const URL = `http://localhost:${PORT}/api/v1/projects`;
 
 console.log(`Starting rate limit test on ${URL}...`);
-console.log(`Expect the first 5 to succeed, and the 6th to fail with a 429 status code.\n`);
+console.log(`Expect the first 100 to succeed, and the 101st to fail with a 429 status code.\n`);
 
 const makeRequest = (requestNumber) => {
   return new Promise((resolve) => {
@@ -34,8 +34,8 @@ const makeRequest = (requestNumber) => {
 async function runTest() {
   const requests = [];
   
-  // Fire off 6 requests immediately
-  for (let i = 1; i <= 6; i++) {
+  // Fire off 101 requests immediately
+  for (let i = 1; i <= 101; i++) {
     requests.push(makeRequest(i));
   }
 
