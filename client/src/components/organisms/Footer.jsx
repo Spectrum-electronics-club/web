@@ -55,7 +55,7 @@ export default function Footer() {
   return (
     <footer style={{
       background: '#030712',
-      borderTop: '1px solid rgba(0,212,255,0.1)',
+      borderTop: '1px solid rgba(255,255,255,0.04)',
       paddingTop: '4rem',
       paddingBottom: '2rem',
     }}>
@@ -67,37 +67,20 @@ export default function Footer() {
             <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none', marginBottom: '1rem' }}>
               <div style={{ display: 'flex', gap: '0.4rem' }}>
                 {/* Logo 1 */}
-                {logo1 ? (
+                {logo1 && (
                   <img src={logo1} alt="Logo 1" style={{ width: '40px', height: '40px', borderRadius: '10px', objectFit: 'contain' }} />
-                ) : (
-                  <div style={{
-                    width: '40px', height: '40px', borderRadius: '10px',
-                    background: 'rgba(0,212,255,0.1)', border: '1px dashed rgba(0,212,255,0.4)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: '#22d3ee', fontSize: '0.65rem', fontWeight: 700
-                  }}>L1</div>
                 )}
-                
-                {/* Logo 2 */}
-                {logo2 ? (
+                {logo2 && (
                   <img src={logo2} alt="Logo 2" style={{ width: '40px', height: '40px', borderRadius: '10px', objectFit: 'contain' }} />
-                ) : (
-                  <div style={{
-                    width: '40px', height: '40px', borderRadius: '10px',
-                    background: 'rgba(139,92,246,0.1)', border: '1px dashed rgba(139,92,246,0.4)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: '#a78bfa', fontSize: '0.65rem', fontWeight: 700
-                  }}>L2</div>
                 )}
               </div>
               <span style={{
                 fontFamily: "'Space Grotesk',sans-serif", fontWeight: 800, fontSize: '1.4rem', letterSpacing: '0.05em',
-                background: 'linear-gradient(135deg,#fff,#06b6d4)',
-                WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                color: '#f1f5f9',
               }}>SPECTRUM</span>
             </Link>
             <p style={{ color: '#64748b', fontSize: '0.875rem', lineHeight: 1.7, maxWidth: '22rem', marginBottom: '1.25rem' }}>
-              A student-led engineering and research club dedicated to bridging the gap
+              A student-led electronics and engineering club dedicated to bridging the gap
               between theory and real-world innovation.
             </p>
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
@@ -112,7 +95,7 @@ export default function Footer() {
                   style={{
                     width: '36px', height: '36px', borderRadius: '10px',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: 'rgba(0,212,255,0.06)', border: '1px solid rgba(0,212,255,0.12)',
+                    background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)',
                     color: '#64748b', transition: 'all 0.2s', textDecoration: 'none',
                   }}
                   onMouseEnter={e => { e.currentTarget.style.color='#22d3ee'; e.currentTarget.style.borderColor='rgba(0,212,255,0.4)'; }}
@@ -166,7 +149,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div style={{
-          borderTop: '1px solid rgba(0,212,255,0.08)',
+          borderTop: '1px solid rgba(255,255,255,0.04)',
           paddingTop: '1.5rem',
           display: 'flex', flexWrap: 'wrap', gap: '0.75rem',
           justifyContent: 'space-between', alignItems: 'center',

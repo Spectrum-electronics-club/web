@@ -16,7 +16,7 @@ const CATEGORY_ORDER = [
   'Audio Video Team'
 ]
 
-const fade = { initial: { opacity: 0, y: 24 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.4 } }
+
 
 const FallbackAvatar = ({ text }) => {
   const display = text ? text.substring(0, 4) : 'User'
@@ -39,11 +39,11 @@ const SectionHeader = ({ category }) => {
   return (
     <div style={{ textAlign: 'center', marginBottom: '2.5rem', marginTop: '4rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', marginBottom: hasBigTitle ? '1.5rem' : '0' }}>
-        <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.4))', width: '20%', maxWidth: '100px' }} />
-        <span style={{ color: '#38bdf8', fontWeight: 600, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+        <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12))', width: '20%', maxWidth: '100px' }} />
+        <span style={{ color: '#94a3b8', fontWeight: 600, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
           {category}
         </span>
-        <div style={{ height: '1px', background: 'linear-gradient(270deg, transparent, rgba(56, 189, 248, 0.4))', width: '20%', maxWidth: '100px' }} />
+        <div style={{ height: '1px', background: 'linear-gradient(270deg, transparent, rgba(255, 255, 255, 0.12))', width: '20%', maxWidth: '100px' }} />
       </div>
       
       {category === 'Faculty' && (
@@ -61,7 +61,7 @@ const MemberCard = ({ m, i }) => {
                    (m.role && (m.role.toLowerCase().includes('junior associate') || m.role.toLowerCase().includes('junior assiociate')));
   
   return (
-    <motion.div key={m._id} {...fade} transition={{ delay: i * 0.05 }} style={{ width: '240px' }}>
+    <div style={{ width: '240px' }}>
       <div style={{ 
         background: isJunior ? 'linear-gradient(145deg, #1f1c07 0%, #292408 100%)' : '#131127',
         border: isJunior ? '1px solid rgba(234, 179, 8, 0.5)' : '1px solid rgba(255, 255, 255, 0.05)',
@@ -73,7 +73,7 @@ const MemberCard = ({ m, i }) => {
         alignItems: 'center',
         gap: '1rem',
         height: '100%',
-        boxShadow: isJunior ? '0 10px 30px -5px rgba(234, 179, 8, 0.25), inset 0 0 15px rgba(234, 179, 8, 0.05)' : '0 10px 30px -10px rgba(0,0,0,0.5)'
+        boxShadow: isJunior ? '0 4px 20px -5px rgba(234, 179, 8, 0.15)' : '0 4px 20px -10px rgba(0,0,0,0.4)'
       }}>
       
       {m.photo && m.photo.trim() !== '' ? (
@@ -139,7 +139,7 @@ const MemberCard = ({ m, i }) => {
         </div>
       )}
     </div>
-  </motion.div>
+  </div>
   )
 }
 

@@ -20,15 +20,8 @@ export default class ErrorBoundary extends Component {
         <h1 style={{ fontFamily:"'Space Grotesk',sans-serif", color:'#ef4444', fontWeight:700 }}>Something went wrong</h1>
         <p style={{ color:'#64748b', maxWidth:'400px' }}>An unexpected error occurred. Try refreshing or go back home.</p>
         <div style={{ display:'flex', gap:'0.75rem', flexWrap:'wrap', justifyContent:'center' }}>
-          <button onClick={() => this.setState({ hasError: false })} style={{
-            background:'linear-gradient(135deg,#0891b2,#06b6d4)', color:'white', border:'none',
-            borderRadius:'10px', padding:'0.6rem 1.5rem', fontWeight:600, cursor:'pointer',
-          }}>Try again</button>
-          <Link to="/" style={{
-            background:'transparent', color:'#22d3ee', border:'1px solid rgba(0,212,255,0.35)',
-            borderRadius:'10px', padding:'0.6rem 1.5rem', fontWeight:600, textDecoration:'none',
-            display:'inline-block',
-          }}>Go home</Link>
+          <button onClick={() => this.setState({ hasError: false })} className="btn-glow">Try again</button>
+          <Link to="/" className="btn-outline">Go home</Link>
         </div>
       </div>
     )

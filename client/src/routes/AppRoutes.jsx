@@ -18,7 +18,7 @@ const Publications = lazy(() => import('@/pages/Publications'))
 const Contact      = lazy(() => import('@/pages/Contact'))
 const JoinClub     = lazy(() => import('@/pages/JoinClub'))
 const NotFound     = lazy(() => import('@/pages/NotFound'))
-const StyleGuide   = lazy(() => import('@/pages/StyleGuide'))
+
 
 // ── Admin pages (lazy) ────────────────────────────────────────────────────
 const AdminLogin     = lazy(() => import('@/pages/admin/AdminLogin'))
@@ -50,7 +50,7 @@ export default function AppRoutes() {
           <Route path="/publications"  element={<Publications />} />
           <Route path="/contact"       element={<Contact />} />
           <Route path="/join"          element={<JoinClub />} />
-          <Route path="/styleguide"    element={<StyleGuide />} />
+
         </Route>
 
         {/* Admin login (no layout wrapper) */}

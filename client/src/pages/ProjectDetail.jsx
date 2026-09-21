@@ -60,17 +60,17 @@ export default function ProjectDetail() {
               {/* Image viewer */}
               {project.images?.length > 0 && (
                 <div style={{ marginBottom:'2rem' }}>
-                  <img src={project.images[imgIdx]} alt={project.title}
+                  <img src={project.images[imgIdx]} alt={project.title} loading="lazy"
                     style={{ width:'100%', maxHeight:'420px', objectFit:'cover', borderRadius:'16px',
-                      border:'1px solid rgba(0,212,255,0.15)' }} />
+                      border:'1px solid rgba(255,255,255,0.06)' }} />
                   {project.images.length > 1 && (
                     <div style={{ display:'flex', gap:'0.5rem', marginTop:'0.75rem', flexWrap:'wrap' }}>
                       {project.images.map((img, i) => (
                         <button key={i} onClick={() => setImgIdx(i)} style={{
-                          border: i===imgIdx ? '2px solid #22d3ee' : '2px solid rgba(0,212,255,0.1)',
+                          border: i===imgIdx ? '2px solid #22d3ee' : '2px solid rgba(255,255,255,0.06)',
                           borderRadius:'8px', padding:0, cursor:'pointer', background:'none', overflow:'hidden',
                         }}>
-                          <img src={img} alt="" style={{ width:'64px', height:'48px', objectFit:'cover', display:'block' }} />
+                          <img src={img} alt="" loading="lazy" style={{ width:'64px', height:'48px', objectFit:'cover', display:'block' }} />
                         </button>
                       ))}
                     </div>

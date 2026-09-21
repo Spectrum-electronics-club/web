@@ -67,8 +67,7 @@ export default function Navbar() {
           <span style={{
             fontFamily: "'Space Grotesk', sans-serif",
             fontWeight: 800, fontSize: '1.25rem', letterSpacing: '0.05em',
-            background: 'linear-gradient(135deg,#fff,#06b6d4)',
-            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+            color: '#f1f5f9',
           }}>SPECTRUM</span>
         </Link>
 
@@ -146,10 +145,7 @@ export default function Navbar() {
         </div>
       )}
 
-      <style>{`
-        @media (min-width: 900px) { .menu-btn { display: none; } }
-        @media (max-width: 899px) { .hidden-mobile { display: none !important; } }
-      `}</style>
+
     </header>
   )
 }
