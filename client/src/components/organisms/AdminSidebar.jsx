@@ -31,7 +31,7 @@ export default function AdminSidebar() {
     }}>
       {/* Logo */}
       <div style={{ padding: '1.25rem 1.5rem', borderBottom: '1px solid rgba(0,212,255,0.08)', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-        <img src="/logo.png" alt="Spectrum" style={{ width: 'auto', height: '32px', borderRadius: '4px', objectFit: 'contain', filter: 'brightness(1.4) drop-shadow(0 0 10px rgba(255,255,255,0.6))' }} />
+        <img src="/logo.png" alt="Spectrum" style={{ width: 'auto', height: '32px', borderRadius: '4px', objectFit: 'contain' }} />
         <h2 style={{ color: '#fff', fontSize: '1.25rem', fontWeight: 700, margin: 0, letterSpacing: '0.05em' }}>
           SPECTRUM Admin
         </h2>
