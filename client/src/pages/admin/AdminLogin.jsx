@@ -14,7 +14,7 @@ export default function AdminLogin() {
   const [loading, setLoading] = useState(false)
   const [apiError, setApiError] = useState(null)
 
-  if (currentUser) return <Navigate to="/admin/dashboard" replace />
+  if (currentUser) return <Navigate to="/spectrum-manage/dashboard" replace />
 
   const ch = k => e => setFields(f => ({ ...f, [k]: e.target.value }))
 
@@ -32,7 +32,7 @@ export default function AdminLogin() {
     setErrors({}); setLoading(true); setApiError(null)
     try {
       await login(fields.email, fields.password)
-      navigate('/admin/dashboard', { replace:true })
+      navigate('/spectrum-manage/dashboard', { replace:true })
     } catch {
       setApiError('Invalid credentials.')
     } finally { setLoading(false) }

@@ -9,7 +9,7 @@ export default function ProtectedRoute() {
   if (loading) return <PageLoader />
 
   if (!currentUser) {
-    return <Navigate to="/admin/login" state={{ from: location }} replace />
+    return <Navigate to="/spectrum-manage/login" state={{ from: location }} replace />
   }
 
   return <Outlet />

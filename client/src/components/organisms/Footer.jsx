@@ -158,7 +158,7 @@ export default function Footer() {
             © {new Date().getFullYear()} SPECTRUM Club. All rights reserved.
           </p>
           <p style={{ color: '#374151', fontSize: '0.8rem', margin: 0 }}>
-            Made with ❤️ by Team SPECTRUM
+            Made and managed by Team Spectrum
           </p>
         </div>
       </div>

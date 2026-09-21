@@ -9,7 +9,7 @@ export function AuthProvider({ children }) {
 
   // Restore session on mount
   useEffect(() => {
-    const token = localStorage.getItem('ngnd-access-token')
+    const token = sessionStorage.getItem('ngnd-access-token')
     if (token) {
       // Decode payload (no verify — server validates on each request)
       try {
@@ -17,13 +17,13 @@ export function AuthProvider({ children }) {
         if (payload.exp * 1000 > Date.now()) {
           setCurrentUser({ id: payload.id, role: payload.role, email: payload.email })
         } else {
-          localStorage.removeItem('ngnd-access-token')
-          localStorage.removeItem('ngnd-refresh-token')
+          sessionStorage.removeItem('ngnd-access-token')
+          sessionStorage.removeItem('ngnd-refresh-token')
         }
       } catch {
         // malformed token
-        localStorage.removeItem('ngnd-access-token')
-        localStorage.removeItem('ngnd-refresh-token')
+        sessionStorage.removeItem('ngnd-access-token')
+        sessionStorage.removeItem('ngnd-refresh-token')
       }
     }
     setLoading(false)
@@ -31,15 +31,15 @@ export function AuthProvider({ children }) {
 
   const login = useCallback(async (email, password) => {
     const { data } = await api.post('/auth/login', { email, password })
-    localStorage.setItem('ngnd-access-token', data.accessToken)
-    localStorage.setItem('ngnd-refresh-token', data.refreshToken)
+    sessionStorage.setItem('ngnd-access-token', data.accessToken)
+    sessionStorage.setItem('ngnd-refresh-token', data.refreshToken)
     setCurrentUser(data.user)
     return data
   }, [])
 
   const logout = useCallback(() => {
-    localStorage.removeItem('ngnd-access-token')
-    localStorage.removeItem('ngnd-refresh-token')
+    sessionStorage.removeItem('ngnd-access-token')
+    sessionStorage.removeItem('ngnd-refresh-token')
     setCurrentUser(null)
   }, [])
 

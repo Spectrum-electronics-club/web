@@ -6,16 +6,16 @@ import {
 } from 'react-icons/fi'
 
 const navItems = [
-  { to: '/admin/dashboard', icon: FiHome, label: 'Dashboard' },
-  { to: '/admin/projects', icon: FiBriefcase, label: 'Projects' },
-  { to: '/admin/events', icon: FiCalendar, label: 'Events' },
-  { to: '/admin/gallery', icon: FiImage, label: 'Gallery' },
-  { to: '/admin/team', icon: FiUsers, label: 'Team' },
-  { to: '/admin/publications', icon: FiFileText, label: 'Publications' },
-  { to: '/admin/announcements', icon: FiBell, label: 'Announcements' },
-  { to: '/admin/recruitment', icon: FiUserPlus, label: 'Recruitment' },
-  { to: '/admin/contacts', icon: FiMessageSquare, label: 'Messages' },
-  { to: '/admin/settings', icon: FiSettings, label: 'Settings' },
+  { to: '/spectrum-manage/dashboard', icon: FiHome, label: 'Dashboard' },
+  { to: '/spectrum-manage/projects', icon: FiBriefcase, label: 'Projects' },
+  { to: '/spectrum-manage/events', icon: FiCalendar, label: 'Events' },
+  { to: '/spectrum-manage/gallery', icon: FiImage, label: 'Gallery' },
+  { to: '/spectrum-manage/team', icon: FiUsers, label: 'Team' },
+  { to: '/spectrum-manage/publications', icon: FiFileText, label: 'Publications' },
+  { to: '/spectrum-manage/announcements', icon: FiBell, label: 'Announcements' },
+  { to: '/spectrum-manage/recruitment', icon: FiUserPlus, label: 'Recruitment' },
+  { to: '/spectrum-manage/contacts', icon: FiMessageSquare, label: 'Messages' },
+  { to: '/spectrum-manage/settings', icon: FiSettings, label: 'Settings' },
 ]
 
 export default function AdminSidebar() {
@@ -62,7 +62,7 @@ export default function AdminSidebar() {
 
       {/* Logout */}
       <div style={{ padding: '0.625rem', borderTop: '1px solid rgba(0,212,255,0.08)' }}>
-        <button onClick={() => { logout(); navigate('/admin/login') }} style={{
+        <button onClick={() => { logout(); navigate('/spectrum-manage/login') }} style={{
           width: '100%', display: 'flex', alignItems: 'center', gap: '0.625rem',
           padding: '0.6rem 0.75rem', borderRadius: '10px', border: 'none',
           fontSize: '0.875rem', fontWeight: 500, cursor: 'pointer',

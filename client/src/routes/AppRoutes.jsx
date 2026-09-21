@@ -54,22 +54,22 @@ export default function AppRoutes() {
         </Route>
 
         {/* Admin login (no layout wrapper) */}
-        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/spectrum-manage/login" element={<AdminLogin />} />
 
         {/* Protected admin routes */}
         <Route element={<ProtectedRoute />}>
           <Route element={<AdminLayout />}>
-            <Route path="/admin"                  element={<Navigate to="/admin/dashboard" replace />} />
-            <Route path="/admin/dashboard"        element={<AdminDashboard />} />
-            <Route path="/admin/projects"         element={<AdminProjects />} />
-            <Route path="/admin/events"           element={<AdminEvents />} />
-            <Route path="/admin/gallery"          element={<AdminGallery />} />
-            <Route path="/admin/team"             element={<AdminTeam />} />
-            <Route path="/admin/publications"     element={<AdminPublications />} />
-            <Route path="/admin/announcements"    element={<AdminAnnouncements />} />
-            <Route path="/admin/recruitment"      element={<AdminRecruitment />} />
-            <Route path="/admin/contacts"         element={<AdminContacts />} />
-            <Route path="/admin/settings"         element={<AdminSettings />} />
+            <Route path="/spectrum-manage"                  element={<Navigate to="/spectrum-manage/dashboard" replace />} />
+            <Route path="/spectrum-manage/dashboard"        element={<AdminDashboard />} />
+            <Route path="/spectrum-manage/projects"         element={<AdminProjects />} />
+            <Route path="/spectrum-manage/events"           element={<AdminEvents />} />
+            <Route path="/spectrum-manage/gallery"          element={<AdminGallery />} />
+            <Route path="/spectrum-manage/team"             element={<AdminTeam />} />
+            <Route path="/spectrum-manage/publications"     element={<AdminPublications />} />
+            <Route path="/spectrum-manage/announcements"    element={<AdminAnnouncements />} />
+            <Route path="/spectrum-manage/recruitment"      element={<AdminRecruitment />} />
+            <Route path="/spectrum-manage/contacts"         element={<AdminContacts />} />
+            <Route path="/spectrum-manage/settings"         element={<AdminSettings />} />
           </Route>
         </Route>
 

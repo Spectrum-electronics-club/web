@@ -8,7 +8,7 @@ const api = axios.create({
 
 // ── Request interceptor: attach access token ───────────────────────────────
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('ngnd-access-token')
+  const token = sessionStorage.getItem('ngnd-access-token')
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }
@@ -50,13 +50,13 @@ api.interceptors.response.use(
       originalRequest._retry = true
       isRefreshing = true
 
-      const refreshToken = localStorage.getItem('ngnd-refresh-token')
+      const refreshToken = sessionStorage.getItem('ngnd-refresh-token')
       if (!refreshToken) {
         isRefreshing = false
         // No refresh token — clear everything and redirect
-        localStorage.removeItem('ngnd-access-token')
-        localStorage.removeItem('ngnd-refresh-token')
-        window.location.href = '/admin/login'
+        sessionStorage.removeItem('ngnd-access-token')
+        sessionStorage.removeItem('ngnd-refresh-token')
+        window.location.href = '/spectrum-manage/login'
         return Promise.reject(error)
       }
 
@@ -65,15 +65,15 @@ api.interceptors.response.use(
           `${import.meta.env.VITE_API_URL || '/api/v1'}/auth/refresh`,
           { refreshToken }
         )
-        localStorage.setItem('ngnd-access-token', data.accessToken)
+        sessionStorage.setItem('ngnd-access-token', data.accessToken)
         api.defaults.headers.common.Authorization = `Bearer ${data.accessToken}`
         processQueue(null, data.accessToken)
         return api(originalRequest)
       } catch (refreshError) {
         processQueue(refreshError, null)
-        localStorage.removeItem('ngnd-access-token')
-        localStorage.removeItem('ngnd-refresh-token')
-        window.location.href = '/admin/login'
+        sessionStorage.removeItem('ngnd-access-token')
+        sessionStorage.removeItem('ngnd-refresh-token')
+        window.location.href = '/spectrum-manage/login'
         return Promise.reject(refreshError)
       } finally {
         isRefreshing = false
