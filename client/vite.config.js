@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
   const apiUrl =
     mode === 'development'
       ? '/api/v1'
-      : 'https://spectrum-4qtx.onrender.com/api/v1'
+      : 'https://api.spectrumddu.com/api/v1'
 
   return {
     define: {
