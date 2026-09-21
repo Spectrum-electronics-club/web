@@ -216,7 +216,7 @@ export default function Home() {
             <Link to="/about" className="btn-outline">Learn More About Us →</Link>
           </motion.div>
           <motion.div {...fade} className="grid grid-cols-2 gap-4">
-            {[{ n: '2019', l: 'Year Founded' }, { n: '200+', l: 'Members' }, { n: '30+', l: 'Projects' }, { n: '15+', l: 'Awards Won' }].map(s => (
+            {[{ n: '2024', l: 'Year Founded' }, { n: '50+', l: 'Members' }, { n: 'xx', l: 'Projects' }, { n: '5+', l: 'Events Organised' }].map(s => (
               <div key={s.l} className="card-glass" style={{ padding: '1.5rem', textAlign: 'center' }}>
                 <div className="stat-number" style={{ fontSize: '2rem' }}>{s.n}</div>
                 <p style={{ color: '#64748b', fontSize: '0.8rem', margin: '0.25rem 0 0', fontWeight: 600 }}>{s.l}</p>
@@ -293,7 +293,7 @@ export default function Home() {
               Ready to Build<br /><span className="gradient-text">Something Amazing?</span>
             </h2>
             <p style={{ color: '#94a3b8', fontSize: '1.1rem', maxWidth: '520px', margin: '0 auto 2.5rem', lineHeight: 1.75 }}>
-              Join NGND and get access to our lab, workshops, competitions, and a community
+              Join Spectrum Club and get access to our lab, workshops, competitions, and a community
               of 200+ engineers who love building things.
             </p>
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
