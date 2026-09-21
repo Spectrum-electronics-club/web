@@ -130,9 +130,7 @@ export default function Home() {
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
             style={{ maxWidth: '820px' }}>
 
-            <p style={{ color: '#06b6d4', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '1.5rem' }}>
-              ⚡ Electronics & Engineering Club · Est. 2024
-            </p>
+
 
             <h1 style={{ fontSize: 'clamp(2.2rem, 10vw, 4.5rem)', lineHeight: 1.08, marginBottom: '1.5rem', color: '#f1f5f9' }}>
               Building the{' '}
