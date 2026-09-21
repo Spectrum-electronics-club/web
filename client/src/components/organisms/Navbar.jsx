@@ -62,6 +62,7 @@ export default function Navbar() {
             {/* Logo 2 */}
             {logo2 && (
               <img src={logo2} alt="Logo 2" style={{ height: '64px', width: 'auto', maxWidth: '200px', borderRadius: '8px', objectFit: 'contain', filter: 'brightness(1.4) drop-shadow(0 0 12px rgba(255,255,255,0.6))' }} />
+            )}
           </div>
           <span style={{
             fontFamily: "'Space Grotesk', sans-serif",
