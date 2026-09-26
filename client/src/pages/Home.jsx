@@ -7,7 +7,7 @@ import api from '@/utils/axiosInstance'
 
 
 const DOMAINS = [
-  { emoji: '🤖', title: 'Robotics', desc: 'Combat robots, autonomous bots, line followers, and humanoid research.', color: '#06b6d4' },
+  { emoji: '🤖', title: 'Robotics', desc: 'Combat robots, autonomous bots and RC bots.', color: '#06b6d4' },
   { emoji: '🌐', title: 'IoT & Embedded', desc: 'Smart devices, sensor networks, ESP32/Arduino and cloud-connected systems.', color: '#8b5cf6' },
   { emoji: '🛸', title: 'Drones & UAVs', desc: 'FPV racing drones, autonomous UAVs, aerial photography, and flight controllers.', color: '#f59e0b' },
   { emoji: '⚡', title: 'Circuits & PCB', desc: 'Analog/digital circuit design, PCB layout, power electronics, and prototyping.', color: '#10b981' },
@@ -195,10 +195,14 @@ export default function Home() {
               <br />of Tomorrow
             </h1>
 
-            <p style={{ fontSize: 'clamp(1rem, 2vw, 1.15rem)', color: '#94a3b8', lineHeight: 1.75, marginBottom: '2.5rem', maxWidth: '560px' }}>
+            <p style={{ fontSize: 'clamp(1rem, 2vw, 1.15rem)', color: '#94a3b8', lineHeight: 1.75, marginBottom: '1rem', maxWidth: '560px' }}>
               Students working on electronics, embedded systems, robotics, and
               real-world engineering projects. From circuit design to autonomous
-              drones — we build things that work.
+              drones.
+            </p>
+            <p style={{ fontSize: 'clamp(1.3rem, 2.5vw, 1.6rem)', fontWeight: 800, marginBottom: '2.5rem', letterSpacing: '0.02em' }}>
+              <span style={{ color: '#f8fafc' }}>We build</span>{' '}
+              <span style={{ color: '#06b6d4' }}>things that work.</span>
             </p>
 
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginBottom: '4rem' }}>
@@ -224,7 +228,7 @@ export default function Home() {
           <div>
             <p style={{ color: '#06b6d4', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '1rem' }}>About Spectrum</p>
             <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', color: '#f1f5f9', marginBottom: '1rem' }}>
-              More Than a Club —<br /><span className="gradient-text">A Builder's Ecosystem</span>
+              More Than a Club —<br /><span className="gradient-text">A Builder&apos;s Ecosystem</span>
             </h2>
             <p style={{ color: '#94a3b8', lineHeight: 1.8, marginBottom: '1rem' }}>
               Spectrum is a student-led electronics and engineering club. We build robots,

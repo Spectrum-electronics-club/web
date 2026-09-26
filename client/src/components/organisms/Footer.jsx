@@ -134,12 +134,12 @@ export default function Footer() {
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
               {[
-                { icon: '📧', text: contactEmail },
-                { icon: '📍', text: contactLocation },
-                { icon: '📱', text: contactSocial },
-              ].map(({ icon, text }) => (
+                { text: contactEmail },
+                { text: contactLocation },
+                { text: contactSocial },
+              ].map(({ text }) => (
                 <p key={text} style={{ color: '#64748b', fontSize: '0.8rem', display: 'flex', gap: '0.5rem', alignItems: 'flex-start', margin: 0 }}>
-                  <span>{icon}</span> {text}
+                  {text}
                 </p>
               ))}
             </div>
