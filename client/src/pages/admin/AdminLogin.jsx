@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, Navigate } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
+import api from '@/utils/axiosInstance'
 
 const fl = { display:'flex', flexDirection:'column', gap:'0.35rem' }
 const lb = { color:'#94a3b8', fontSize:'0.85rem', fontWeight:600 }
@@ -13,6 +14,17 @@ export default function AdminLogin() {
   const [errors, setErrors]   = useState({})
   const [loading, setLoading] = useState(false)
   const [apiError, setApiError] = useState(null)
+  const [logo, setLogo] = useState(localStorage.getItem('spectrum_logo2') || '/logo.png')
+
+  useEffect(() => {
+    api.get('/settings').then(res => {
+      const l2 = res.data?.data?.logo2Url || ''
+      if (l2) {
+        setLogo(l2)
+        localStorage.setItem('spectrum_logo2', l2)
+      }
+    }).catch(err => console.error('Failed to load logo', err))
+  }, [])
 
   if (currentUser) return <Navigate to="/spectrum-manage/dashboard" replace />
 
@@ -43,12 +55,7 @@ export default function AdminLogin() {
       <div className="orb orb-cyan" style={{ width:'300px', height:'300px', top:'30%', left:'50%', transform:'translateX(-50%)', opacity:0.15 }} />
       <div className="card-glass" style={{ width:'100%', maxWidth:'400px', padding:'2.5rem', position:'relative', zIndex:1 }}>
         <div style={{ textAlign:'center', marginBottom:'2rem' }}>
-          <div style={{
-            width:'52px', height:'52px', borderRadius:'14px', margin:'0 auto 1rem',
-            background:'linear-gradient(135deg,#0891b2,#7c3aed)',
-            display:'flex', alignItems:'center', justifyContent:'center',
-            fontFamily:"'Space Grotesk',sans-serif", fontWeight:800, fontSize:'1.3rem', color:'white',
-          }}>N</div>
+          <img src={logo} alt="Spectrum Logo" style={{ width:'64px', height:'64px', margin:'0 auto 1rem', display:'block', objectFit:'contain' }} />
           <h1 style={{ fontFamily:"'Space Grotesk',sans-serif", fontWeight:700, color:'#e2e8f0', fontSize:'1.4rem', margin:'0 0 0.35rem' }}>Admin Login</h1>
           <p style={{ color:'#64748b', fontSize:'0.875rem', margin:0 }}>Spectrum Club Admin Panel</p>
         </div>
