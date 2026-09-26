@@ -17,6 +17,7 @@ const Gallery      = lazy(() => import('@/pages/Gallery'))
 const Publications = lazy(() => import('@/pages/Publications'))
 const Contact      = lazy(() => import('@/pages/Contact'))
 const JoinClub     = lazy(() => import('@/pages/JoinClub'))
+const Announcements= lazy(() => import('@/pages/Announcements'))
 const NotFound     = lazy(() => import('@/pages/NotFound'))
 
 
@@ -49,6 +50,7 @@ export default function AppRoutes() {
           <Route path="/gallery"       element={<Gallery />} />
           <Route path="/publications"  element={<Publications />} />
           <Route path="/contact"       element={<Contact />} />
+          <Route path="/announcements" element={<Announcements />} />
           <Route path="/join"          element={<JoinClub />} />
 
         </Route>

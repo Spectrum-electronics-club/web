@@ -15,6 +15,63 @@ const DOMAINS = [
   { emoji: '🔬', title: 'Research', desc: 'Technical writing, research papers, documentation, and knowledge sharing.', color: '#a78bfa' },
 ]
 
+// ── Latest Announcement fetcher ──────────────────────────────────────────────
+function LatestAnnouncement() {
+  const [announcement, setAnnouncement] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    api.get('/announcements?limit=1')
+      .then(r => {
+        const data = r.data.data || r.data
+        if (data && data.length > 0) {
+          setAnnouncement(data[0])
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, [])
+
+  if (loading || !announcement) return null
+
+  let badgeColor = 'badge-cyan'
+  if (announcement.type === 'Warning') badgeColor = 'badge-purple'
+  if (announcement.type === 'Success') badgeColor = 'badge-green'
+  if (announcement.type === 'Event') badgeColor = 'badge-purple'
+
+  return (
+    <section style={{ padding: '3rem 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+      <div className="container-main">
+        <div style={{ background: 'rgba(0, 212, 255, 0.03)', border: '1px solid rgba(0, 212, 255, 0.1)', borderRadius: '12px', padding: '1.5rem 2rem', display: 'flex', flexDirection: 'column', gap: '1rem', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '4px', background: '#06b6d4' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            <span className={badgeColor} style={{ fontSize: '0.75rem', padding: '0.2rem 0.6rem' }}>Latest Announcement</span>
+            <span style={{ color: '#94a3b8', fontSize: '0.85rem' }}>{new Date(announcement.createdAt).toLocaleDateString()}</span>
+          </div>
+          <div>
+            <h3 style={{ fontFamily: "'Space Grotesk',sans-serif", fontSize: '1.25rem', color: '#f1f5f9', margin: '0 0 0.5rem' }}>
+              {announcement.title}
+            </h3>
+            <p style={{ color: '#94a3b8', margin: 0, lineHeight: 1.6, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+              {announcement.body}
+            </p>
+          </div>
+          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginTop: '0.5rem' }}>
+            {announcement.linkUrl && (
+              <a href={announcement.linkUrl} target="_blank" rel="noopener noreferrer" className="btn-outline" style={{ fontSize: '0.85rem', padding: '0.4rem 1rem' }}>
+                {announcement.linkText || 'Learn More'}
+              </a>
+            )}
+            <Link to="/announcements" style={{ color: '#06b6d4', fontSize: '0.9rem', textDecoration: 'none', fontWeight: 600 }}>
+              View all announcements →
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 // ── Featured projects fetcher ──────────────────────────────────────────────
 function FeaturedProjects() {
   const [projects, setProjects] = useState([])
@@ -157,6 +214,9 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      {/* ── LATEST ANNOUNCEMENT ────────────────────────────────────────────── */}
+      <LatestAnnouncement />
 
       {/* ── ABOUT STRIP ───────────────────────────────────────────────────── */}
       <section style={{ background: '#0a0e17', padding: '5rem 0', borderTop: '1px solid rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>

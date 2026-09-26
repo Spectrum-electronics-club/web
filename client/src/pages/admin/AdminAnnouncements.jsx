@@ -11,7 +11,7 @@ export default function AdminAnnouncements() {
   const [formOpen, setFormOpen] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState(null)
   const [editing, setEditing] = useState(null)
-  const [fields, setFields] = useState({ title: '', body: '', isPinned: false, expiresAt: '' })
+  const [fields, setFields] = useState({ title: '', body: '', type: 'Info', linkUrl: '', linkText: '', isPinned: false, expiresAt: '' })
   const [saving, setSaving] = useState(false)
 
   const [page, setPage] = useState(1)
@@ -43,12 +43,15 @@ export default function AdminAnnouncements() {
     load(1, newLimit)
   }
 
-  const openCreate = () => { setEditing(null); setFields({ title: '', body: '', isPinned: false, expiresAt: '' }); setFormOpen(true) }
+  const openCreate = () => { setEditing(null); setFields({ title: '', body: '', type: 'Info', linkUrl: '', linkText: '', isPinned: false, expiresAt: '' }); setFormOpen(true) }
   const openEdit = (a) => {
     setEditing(a)
     setFields({
       title: a.title || '',
       body: a.body || '',
+      type: a.type || 'Info',
+      linkUrl: a.linkUrl || '',
+      linkText: a.linkText || '',
       isPinned: !!a.isPinned,
       expiresAt: a.expiresAt ? new Date(a.expiresAt).toISOString().split('T')[0] : ''
     })
@@ -101,18 +104,19 @@ export default function AdminAnnouncements() {
           <table className="w-full text-sm">
             <thead className="bg-neutral-50 dark:bg-neutral-800 text-left">
               <tr>
-                {['Title', 'Pinned', 'Expires At', 'Actions'].map((h) => (
+                {['Title', 'Type', 'Pinned', 'Expires At', 'Actions'].map((h) => (
                   <th key={h} className="px-4 py-3 font-semibold text-neutral-600 dark:text-neutral-400">{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody className="divide-y divide-neutral-200 dark:divide-neutral-700">
               {announcements.length === 0 && (
-                <tr><td colSpan="4" className="px-4 py-6 text-center text-neutral-500">No announcements found.</td></tr>
+                <tr><td colSpan="5" className="px-4 py-6 text-center text-neutral-500">No announcements found.</td></tr>
               )}
               {announcements.map((a) => (
                 <tr key={a._id} className="hover:bg-neutral-50 dark:hover:bg-neutral-800/50">
                   <td className="px-4 py-3 font-medium text-on-surface">{a.title}</td>
+                  <td className="px-4 py-3"><Badge variant={a.type === 'Info' ? 'secondary' : a.type === 'Warning' ? 'warning' : a.type === 'Success' ? 'success' : 'primary'}>{a.type || 'Info'}</Badge></td>
                   <td className="px-4 py-3">{a.isPinned ? <Badge variant="primary">Pinned</Badge> : <Badge variant="default">Normal</Badge>}</td>
                   <td className="px-4 py-3 text-neutral-500">{a.expiresAt ? new Date(a.expiresAt).toLocaleDateString() : 'Never'}</td>
                   <td className="px-4 py-3">
@@ -144,8 +148,27 @@ export default function AdminAnnouncements() {
             <input required value={fields.title} onChange={ch('title')} className="input-dark" placeholder="Announcement title" />
           </div>
           <div className="flex flex-col gap-1.5">
+            <label className="text-sm font-semibold text-neutral-500">Type</label>
+            <select required value={fields.type} onChange={ch('type')} className="input-dark">
+              <option value="Info">Info</option>
+              <option value="Warning">Warning</option>
+              <option value="Success">Success</option>
+              <option value="Event">Event</option>
+            </select>
+          </div>
+          <div className="flex flex-col gap-1.5">
             <label className="text-sm font-semibold text-neutral-500">Body</label>
             <textarea required rows={4} value={fields.body} onChange={ch('body')} className="input-dark" placeholder="Announcement body..." />
+          </div>
+          <div className="flex gap-4">
+            <div className="flex flex-col gap-1.5 w-1/2">
+              <label className="text-sm font-semibold text-neutral-500">Link URL (Optional)</label>
+              <input type="url" value={fields.linkUrl} onChange={ch('linkUrl')} className="input-dark" placeholder="https://..." />
+            </div>
+            <div className="flex flex-col gap-1.5 w-1/2">
+              <label className="text-sm font-semibold text-neutral-500">Link Text (Optional)</label>
+              <input value={fields.linkText} onChange={ch('linkText')} className="input-dark" placeholder="e.g. Read More" />
+            </div>
           </div>
           <div className="flex items-center gap-2 mt-2">
             <input type="checkbox" id="isPinned" checked={fields.isPinned} onChange={ch('isPinned')} className="w-4 h-4 rounded border-neutral-300" />
@@ -153,6 +176,7 @@ export default function AdminAnnouncements() {
           </div>
           <div className="flex flex-col gap-1.5">
             <label className="text-sm font-semibold text-neutral-500">Expires At (Optional)</label>
+            <p className="text-xs text-neutral-400 m-0">Leave blank to display forever. If set, it will automatically stop showing on the home page after this date.</p>
             <input type="date" value={fields.expiresAt} onChange={ch('expiresAt')} className="input-dark" />
           </div>
           <div className="flex gap-3 justify-end pt-4">

@@ -6,6 +6,7 @@ import api from '@/utils/axiosInstance'
 const navLinks = [
   { to: '/', label: 'Home' },
   { to: '/events', label: 'Events & Competitions' },
+  { to: '/announcements', label: 'Announcements' },
   { to: '/projects', label: 'Projects' },
   { to: '/team', label: 'Team' },
   { to: '/gallery', label: 'Photo Gallery' },
