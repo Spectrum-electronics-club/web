@@ -47,7 +47,7 @@ function uploadToCloudinary(buffer, options = {}) {
         resolve(result)
       }
     )
-    Readable.from(buffer).pipe(uploadStream)
+    uploadStream.end(buffer)
   })
 }
 
