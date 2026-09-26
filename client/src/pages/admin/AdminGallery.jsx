@@ -73,7 +73,7 @@ export default function AdminGallery() {
       ) : (
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(200px,1fr))', gap:'1rem' }}>
           {images.map(img => (
-            <div key={img._id} style={{ position:'relative', borderRadius:'12px', overflow:'hidden', border:'1px solid rgba(0,212,255,0.1)', background:'#0d1117' }}>
+            <div key={img._id} style={{ position:'relative', borderRadius:'12px', overflowX:'auto', border:'1px solid rgba(0,212,255,0.1)', background:'#0d1117' }}>
               <img src={img.imageUrl} alt={img.caption||''} style={{ width:'100%', height:'160px', objectFit:'cover', display:'block' }} />
               <div style={{ padding:'0.6rem 0.75rem' }}>
                 {img.album && <p style={{ color:'#22d3ee', fontSize:'0.72rem', margin:'0 0 0.2rem', fontWeight:600 }}>{img.album}</p>}

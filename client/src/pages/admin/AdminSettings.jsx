@@ -118,7 +118,7 @@ export default function AdminSettings() {
             <div>
               <label style={labelStyle}>Logo 1</label>
               <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                <div style={{ width: '80px', height: '80px', borderRadius: '10px', background: 'rgba(0,0,0,0.2)', border: '1px dashed rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                <div style={{ width: '80px', height: '80px', borderRadius: '10px', background: 'rgba(0,0,0,0.2)', border: '1px dashed rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflowX:'auto' }}>
                   {fields.logo1Url ? <img src={fields.logo1Url} alt="Logo 1" style={{ width: '100%', height: '100%', objectFit: 'contain' }} /> : <span style={{ color: '#64748b', fontSize: '0.8rem' }}>None</span>}
                 </div>
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -133,7 +133,7 @@ export default function AdminSettings() {
             <div>
               <label style={labelStyle}>Logo 2</label>
               <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                <div style={{ width: '80px', height: '80px', borderRadius: '10px', background: 'rgba(0,0,0,0.2)', border: '1px dashed rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                <div style={{ width: '80px', height: '80px', borderRadius: '10px', background: 'rgba(0,0,0,0.2)', border: '1px dashed rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflowX:'auto' }}>
                   {fields.logo2Url ? <img src={fields.logo2Url} alt="Logo 2" style={{ width: '100%', height: '100%', objectFit: 'contain' }} /> : <span style={{ color: '#64748b', fontSize: '0.8rem' }}>None</span>}
                 </div>
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>

@@ -79,7 +79,7 @@ export default function AdminTeam() {
     catch { alert('Delete failed.') }
   }
 
-  const cardStyle = { background:'#0d1117', border:'1px solid rgba(0,212,255,0.1)', borderRadius:'12px', overflow:'hidden' }
+  const cardStyle = { background:'#0d1117', border:'1px solid rgba(0,212,255,0.1)', borderRadius:'12px', overflowX:'auto' }
 
   return (
     <div>
@@ -96,7 +96,7 @@ export default function AdminTeam() {
           {[1,2,3,4,5,6].map(i => <div key={i} className="skeleton" style={{ height:'180px', borderRadius:'12px' }} />)}
         </div>
       ) : (
-        <div style={cardStyle}>
+        <div style={cardStyle} className="w-full">
           <table style={{ width:'100%', borderCollapse:'collapse', fontSize:'0.875rem' }}>
             <thead>
               <tr style={{ borderBottom:'1px solid rgba(0,212,255,0.08)' }}>

@@ -94,7 +94,7 @@ export default function AdminRecruitment() {
       {loading ? (
         <p className="text-neutral-500">Loading…</p>
       ) : (
-        <div className="bg-surface rounded-xl border border-neutral-200 dark:border-neutral-700 overflow-hidden">
+        <div className="bg-surface rounded-xl border border-neutral-200 dark:border-neutral-700 overflow-x-auto w-full">
           <table className="w-full text-sm">
             <thead className="bg-neutral-50 dark:bg-neutral-800 text-left">
               <tr>
