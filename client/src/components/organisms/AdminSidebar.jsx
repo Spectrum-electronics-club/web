@@ -18,62 +18,80 @@ const navItems = [
   { to: '/spectrum-manage/settings', icon: FiSettings, label: 'Settings' },
 ]
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ isOpen, setIsOpen }) {
   const { logout } = useAuth()
   const navigate = useNavigate()
 
   return (
-    <aside style={{
-      width: '240px', minHeight: '100vh', flexShrink: 0,
-      background: '#030712',
-      borderRight: '1px solid rgba(0,212,255,0.08)',
-      display: 'flex', flexDirection: 'column',
-    }}>
-      {/* Logo */}
-      <div style={{ padding: '1.25rem 1.5rem', borderBottom: '1px solid rgba(0,212,255,0.08)', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-        <img src="/logo.png" alt="Spectrum" style={{ width: 'auto', height: '32px', borderRadius: '4px', objectFit: 'contain' }} />
-        <h2 style={{ color: '#fff', fontSize: '1.25rem', fontWeight: 700, margin: 0, letterSpacing: '0.05em' }}>
-          SPECTRUM Admin
-        </h2>
-      </div>
-
-      {/* Nav */}
-      <nav style={{ flex: 1, padding: '0.75rem 0.625rem', overflowY: 'auto' }} aria-label="Admin navigation">
-        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '2px' }}>
-          {navItems.map(({ to, icon: Icon, label }) => (
-            <li key={to}>
-              <NavLink to={to} style={({ isActive }) => ({
-                display: 'flex', alignItems: 'center', gap: '0.625rem',
-                padding: '0.6rem 0.75rem', borderRadius: '10px',
-                fontSize: '0.875rem', fontWeight: 500, textDecoration: 'none',
-                transition: 'all 0.15s',
-                background: isActive ? 'rgba(0,212,255,0.1)' : 'transparent',
-                color: isActive ? '#22d3ee' : '#64748b',
-              })}
-                onMouseEnter={e => { if (!e.currentTarget.dataset.active) { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = '#e2e8f0' } }}
-                onMouseLeave={e => { if (!e.currentTarget.dataset.active) { e.currentTarget.style.background = ''; e.currentTarget.style.color = '' } }}
-              >
-                <Icon size={17} aria-hidden="true" /> {label}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      {/* Logout */}
-      <div style={{ padding: '0.625rem', borderTop: '1px solid rgba(0,212,255,0.08)' }}>
-        <button onClick={() => { logout(); navigate('/spectrum-manage/login') }} style={{
-          width: '100%', display: 'flex', alignItems: 'center', gap: '0.625rem',
-          padding: '0.6rem 0.75rem', borderRadius: '10px', border: 'none',
-          fontSize: '0.875rem', fontWeight: 500, cursor: 'pointer',
-          background: 'transparent', color: '#ef4444', transition: 'all 0.15s',
+    <>
+      {/* Mobile overlay */}
+      {isOpen && (
+        <div 
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 40 }}
+          className="md:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+      
+      <aside 
+        style={{
+          width: '240px', minHeight: '100vh', flexShrink: 0,
+          background: '#030712',
+          borderRight: '1px solid rgba(0,212,255,0.08)',
+          display: 'flex', flexDirection: 'column',
+          zIndex: 50
         }}
-          onMouseEnter={e => e.currentTarget.style.background = 'rgba(239,68,68,0.08)'}
-          onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
-        >
-          <FiLogOut size={17} /> Log out
-        </button>
-      </div>
-    </aside>
+        className={`fixed inset-y-0 left-0 transform transition-transform duration-200 ease-in-out md:relative md:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
+      >
+        {/* Logo */}
+        <div style={{ padding: '1.25rem 1.5rem', borderBottom: '1px solid rgba(0,212,255,0.08)', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+          <img src="/logo.png" alt="Spectrum" style={{ width: 'auto', height: '32px', borderRadius: '4px', objectFit: 'contain' }} />
+          <h2 style={{ color: '#fff', fontSize: '1.25rem', fontWeight: 700, margin: 0, letterSpacing: '0.05em' }}>
+            SPECTRUM Admin
+          </h2>
+        </div>
+
+        {/* Nav */}
+        <nav style={{ flex: 1, padding: '0.75rem 0.625rem', overflowY: 'auto' }} aria-label="Admin navigation">
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '2px' }}>
+            {navItems.map(({ to, icon: Icon, label }) => (
+              <li key={to}>
+                <NavLink 
+                  to={to} 
+                  onClick={() => setIsOpen && setIsOpen(false)}
+                  style={({ isActive }) => ({
+                    display: 'flex', alignItems: 'center', gap: '0.625rem',
+                    padding: '0.6rem 0.75rem', borderRadius: '10px',
+                    fontSize: '0.875rem', fontWeight: 500, textDecoration: 'none',
+                    transition: 'all 0.15s',
+                    background: isActive ? 'rgba(0,212,255,0.1)' : 'transparent',
+                    color: isActive ? '#22d3ee' : '#64748b',
+                  })}
+                  onMouseEnter={e => { if (!e.currentTarget.dataset.active) { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = '#e2e8f0' } }}
+                  onMouseLeave={e => { if (!e.currentTarget.dataset.active) { e.currentTarget.style.background = ''; e.currentTarget.style.color = '' } }}
+                >
+                  <Icon size={17} aria-hidden="true" /> {label}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* Logout */}
+        <div style={{ padding: '0.625rem', borderTop: '1px solid rgba(0,212,255,0.08)' }}>
+          <button onClick={() => { logout(); navigate('/spectrum-manage/login') }} style={{
+            width: '100%', display: 'flex', alignItems: 'center', gap: '0.625rem',
+            padding: '0.6rem 0.75rem', borderRadius: '10px', border: 'none',
+            fontSize: '0.875rem', fontWeight: 500, cursor: 'pointer',
+            background: 'transparent', color: '#ef4444', transition: 'all 0.15s',
+          }}
+            onMouseEnter={e => e.currentTarget.style.background = 'rgba(239,68,68,0.08)'}
+            onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+          >
+            <FiLogOut size={17} /> Log out
+          </button>
+        </div>
+      </aside>
+    </>
   )
 }

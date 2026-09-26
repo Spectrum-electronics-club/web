@@ -51,11 +51,11 @@ export default function AdminLogin() {
   }
 
   return (
-    <div style={{ minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', background:'#070b11', padding:'1rem' }} className="bg-grid">
+    <div style={{ minHeight:'100vh', width:'100%', display:'flex', alignItems:'center', justifyContent:'center', background:'#070b11', padding:'1rem' }} className="bg-grid w-full">
       <div className="orb orb-cyan" style={{ width:'300px', height:'300px', top:'30%', left:'50%', transform:'translateX(-50%)', opacity:0.15 }} />
       <div className="card-glass" style={{ width:'100%', maxWidth:'400px', padding:'2.5rem', position:'relative', zIndex:1 }}>
         <div style={{ textAlign:'center', marginBottom:'2rem' }}>
-          <img src={logo} alt="Spectrum Logo" style={{ width:'64px', height:'64px', margin:'0 auto 1rem', display:'block', objectFit:'contain' }} />
+          <img src={logo} alt="Spectrum Logo" style={{ width:'auto', maxWidth:'200px', height:'48px', margin:'0 auto 1.5rem', display:'block', objectFit:'contain' }} />
           <h1 style={{ fontFamily:"'Space Grotesk',sans-serif", fontWeight:700, color:'#e2e8f0', fontSize:'1.4rem', margin:'0 0 0.35rem' }}>Admin Login</h1>
           <p style={{ color:'#64748b', fontSize:'0.875rem', margin:0 }}>Spectrum Club Admin Panel</p>
         </div>
