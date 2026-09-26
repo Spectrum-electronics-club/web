@@ -11,7 +11,13 @@ router.get('/', async (req, res) => {
     const now = new Date()
     
     // Only return announcements that haven't expired
-    const query = { $or: [{ expiresAt: null }, { expiresAt: { $gt: now } }] }
+    const query = { 
+      $or: [
+        { expiresAt: null }, 
+        { expiresAt: { $exists: false } }, 
+        { expiresAt: { $gt: now } }
+      ] 
+    }
 
     const total = await Announcement.countDocuments(query)
     const announcements = await Announcement.find(query)
