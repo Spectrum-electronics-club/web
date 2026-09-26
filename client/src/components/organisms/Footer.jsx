@@ -88,7 +88,6 @@ export default function Footer() {
                 { Icon: FaInstagram, href: socialInstagram || '#', label: 'Instagram' },
                 { Icon: FaLinkedin,  href: socialLinkedin || '#', label: 'LinkedIn' },
                 { Icon: FaYoutube,   href: socialYoutube || '#', label: 'YouTube' },
-                { Icon: FaGithub,    href: socialGithub || '#', label: 'GitHub' },
                 { Icon: FaEnvelope,  href: contactEmail ? `mailto:${contactEmail}` : '#', label: 'Email' },
               ].map(({ Icon, href, label }) => (
                 <a key={label} href={href} aria-label={label} target="_blank" rel="noopener noreferrer"
