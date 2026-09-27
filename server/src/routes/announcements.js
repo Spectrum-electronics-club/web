@@ -4,6 +4,11 @@ const Announcement = require('../models/Announcement')
 
 router.get('/', async (req, res) => {
   try {
+    // Prevent caching on public hosting platforms like Vercel/Cloudflare
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+    res.setHeader('Pragma', 'no-cache')
+    res.setHeader('Expires', '0')
+
     const page = parseInt(req.query.page) || 1
     const limit = parseInt(req.query.limit) || 10
     const skip = (page - 1) * limit
