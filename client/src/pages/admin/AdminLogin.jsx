@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, Navigate } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
 import api from '@/utils/axiosInstance'
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
 const fl = { display:'flex', flexDirection:'column', gap:'0.35rem' }
 const lb = { color:'#94a3b8', fontSize:'0.85rem', fontWeight:600 }
@@ -15,6 +16,7 @@ export default function AdminLogin() {
   const [loading, setLoading] = useState(false)
   const [apiError, setApiError] = useState(null)
   const [logo, setLogo] = useState(localStorage.getItem('spectrum_logo2') || '/logo.png')
+  const [showPassword, setShowPassword] = useState(false)
 
   useEffect(() => {
     api.get('/settings').then(res => {
@@ -67,7 +69,38 @@ export default function AdminLogin() {
           </div>
           <div style={fl}>
             <label style={lb}>Password</label>
-            <input className={`input-dark${errors.password?' error':''}`} type="password" value={fields.password} onChange={ch('password')} placeholder="••••••••" autoComplete="current-password" />
+            <div style={{ position: 'relative', display: 'flex', width: '100%' }}>
+              <input 
+                className={`input-dark${errors.password?' error':''}`} 
+                type={showPassword ? "text" : "password"} 
+                value={fields.password} 
+                onChange={ch('password')} 
+                placeholder="••••••••" 
+                autoComplete="current-password" 
+                style={{ width: '100%', paddingRight: '2.5rem' }} 
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: 'absolute',
+                  right: '0.75rem',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'transparent',
+                  border: 'none',
+                  color: '#94a3b8',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: 0
+                }}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <FaEyeSlash size={16} /> : <FaEye size={16} />}
+              </button>
+            </div>
             {errors.password && <span style={er}>{errors.password}</span>}
           </div>
           {apiError && <p role="alert" style={{ color:'#ef4444', fontSize:'0.85rem', textAlign:'center', margin:0 }}>{apiError}</p>}
