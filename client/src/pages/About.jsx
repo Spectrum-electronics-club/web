@@ -1,37 +1,14 @@
-import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import PageTransition from '@/components/molecules/PageTransition'
-import api from '@/utils/axiosInstance'
 
 const VALUES = [
-  { icon: '🔬', title: 'Curiosity', desc: 'We ask why. Then we build the answer.' },
-  { icon: '🤝', title: 'Collaboration', desc: 'Diverse minds building one vision together.' },
-  { icon: '⚡', title: 'Innovation', desc: 'We push limits and create what did not exist before.' },
-  { icon: '🏆', title: 'Excellence', desc: 'Good enough is never enough. We iterate until it is great.' },
+  { title: 'Curiosity', desc: 'We ask why. Then we build the answer.' },
+  { title: 'Collaboration', desc: 'Diverse minds building one vision together.' },
+  { title: 'Innovation', desc: 'We push limits and create what did not exist before.' },
+  { title: 'Excellence', desc: 'Good enough is never enough. We iterate until it is great.' },
 ]
 
 export default function About() {
-  const [settings, setSettings] = useState({
-    aboutDescription: 'Spectrum is a student-led electronics and engineering club dedicated to turning curiosity into creation — bridging the gap between classroom theory and real-world innovation.',
-    aboutStory: 'Founded in 2024, Spectrum started as a small group of engineering students passionate about making things. Today we are a growing community across multiple technical domains, with projects deployed in the real world.',
-    aboutMission: 'To foster a culture of innovation and collaboration where members can grow their technical skills, conduct meaningful research, and make impactful contributions to their field and society.',
-    aboutVision: 'A club where every member becomes a builder, researcher, and leader. We envision Spectrum alumni driving technological change at the highest levels of industry and academia.'
-  })
-
-  useEffect(() => {
-    api.get('/settings').then(res => {
-      if (res.data?.data) {
-        setSettings(prev => ({
-          ...prev,
-          aboutDescription: res.data.data.aboutDescription || prev.aboutDescription,
-          aboutStory: res.data.data.aboutStory || prev.aboutStory,
-          aboutMission: res.data.data.aboutMission || prev.aboutMission,
-          aboutVision: res.data.data.aboutVision || prev.aboutVision
-        }))
-      }
-    }).catch(console.error)
-  }, [])
-
   return (
     <PageTransition>
       <div style={{ background: '#070b11', minHeight: '100vh' }}>
@@ -44,9 +21,20 @@ export default function About() {
               <h1 style={{ fontSize: 'clamp(2.2rem,5vw,3.5rem)', color: '#f1f5f9', marginBottom: '1.25rem' }}>
                 Who <span className="gradient-text">We Are</span>
               </h1>
-              <p style={{ color: '#94a3b8', fontSize: '1.1rem', lineHeight: 1.8, maxWidth: '640px' }}>
-                {settings.aboutDescription}
-              </p>
+              <div style={{ color: '#94a3b8', fontSize: '1.1rem', lineHeight: 1.8, maxWidth: '800px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <p>
+                  Spectrum is a student-led electronics and engineering club built around one simple idea: learn by building. We bring together students who are curious about technology and excited to turn ideas into something real.
+                </p>
+                <p>
+                  Our work spans electronics, embedded systems, robotics, automation, and autonomous systems. From designing circuits and programming microcontrollers to building robots and developing complete systems, we get hands-on experience that goes beyond the classroom.
+                </p>
+                <p>
+                  We believe engineering is best learned through experimentation. Not every prototype works on the first attempt, and that's where the real learning happens. We encourage our members to ask questions, try new approaches, solve problems, and learn from every failure along the way.
+                </p>
+                <p>
+                  Beyond projects, Spectrum gives students a platform to challenge themselves through <strong style={{ color: '#e2e8f0' }}>competitions, technical events, and real-world engineering challenges</strong>, including opportunities to compete at national levels. More than just a club, Spectrum is a community of students who build, learn, collaborate, and push each other to see what's possible.
+                </p>
+              </div>
             </motion.div>
           </div>
         </section>
@@ -55,9 +43,9 @@ export default function About() {
         <section style={{ padding: '4rem 0' }}>
           <div className="container-main" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: '2rem' }}>
             {[
-              { icon: '📖', title: 'Our Story', text: settings.aboutStory },
-              { icon: '🎯', title: 'Our Mission', text: settings.aboutMission },
-              { icon: '🔭', title: 'Our Vision', text: settings.aboutVision },
+              { icon: '📖', title: 'Our Story', text: "Spectrum started in 2024 as a small group of engineering students passionate about building things. Today, we're a growing community of 50+ students exploring robotics, electronics, embedded systems, and more, with projects that take our learning beyond the classroom and into the real world." },
+              { icon: '🎯', title: 'Our Mission', text: "To create a space where students can learn, collaborate, experiment, and grow, while using their skills to build meaningful solutions, take on real-world challenges, and make a positive impact through technology and innovation." },
+              { icon: '🔭', title: 'Our Vision', text: "A club where every member gets the chance to become an innovator, researcher, and leader. We hope to see Spectrum alumni go on to build, lead, and drive meaningful technological change in industry and academia." },
             ].map((item) => (
               <div key={item.title} className="card-glass" style={{ padding: '2rem', height: '100%' }}>
                 <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>{item.icon}</div>
