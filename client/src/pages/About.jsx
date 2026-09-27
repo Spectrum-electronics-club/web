@@ -21,18 +21,18 @@ export default function About() {
               <h1 style={{ fontSize: 'clamp(2.2rem,5vw,3.5rem)', color: '#f1f5f9', marginBottom: '1.25rem' }}>
                 Who <span className="gradient-text">We Are</span>
               </h1>
-              <div style={{ color: '#94a3b8', fontSize: '1.1rem', lineHeight: 1.8, maxWidth: '800px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <p>
+              <div style={{ color: '#94a3b8', fontSize: '1.1rem', lineHeight: 1.8, maxWidth: '640px', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                <p style={{ margin: 0 }}>
                   Spectrum is a student-led electronics and engineering club built around one simple idea: learn by building. We bring together students who are curious about technology and excited to turn ideas into something real.
                 </p>
-                <p>
+                <p style={{ margin: 0 }}>
                   Our work spans electronics, embedded systems, robotics, automation, and autonomous systems. From designing circuits and programming microcontrollers to building robots and developing complete systems, we get hands-on experience that goes beyond the classroom.
                 </p>
-                <p>
+                <p style={{ margin: 0 }}>
                   We believe engineering is best learned through experimentation. Not every prototype works on the first attempt, and that's where the real learning happens. We encourage our members to ask questions, try new approaches, solve problems, and learn from every failure along the way.
                 </p>
-                <p>
-                  Beyond projects, Spectrum gives students a platform to challenge themselves through <strong style={{ color: '#e2e8f0' }}>competitions, technical events, and real-world engineering challenges</strong>, including opportunities to compete at national levels. More than just a club, Spectrum is a community of students who build, learn, collaborate, and push each other to see what's possible.
+                <p style={{ margin: 0 }}>
+                  Beyond projects, Spectrum gives students a platform to challenge themselves through <strong style={{ color: '#e2e8f0', fontWeight: 600 }}>competitions, technical events, and real-world engineering challenges</strong>, including opportunities to compete at national levels. More than just a club, Spectrum is a community of students who build, learn, collaborate, and push each other to see what's possible.
                 </p>
               </div>
             </motion.div>
