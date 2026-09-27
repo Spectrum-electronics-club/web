@@ -32,7 +32,7 @@ export default function About() {
                   We believe engineering is best learned through experimentation. Not every prototype works on the first attempt, and that's where the real learning happens. We encourage our members to ask questions, try new approaches, solve problems, and learn from every failure along the way.
                 </p>
                 <p style={{ margin: 0 }}>
-                  Beyond projects, Spectrum gives students a platform to challenge themselves through <strong style={{ color: '#e2e8f0', fontWeight: 600 }}>competitions, technical events, and real-world engineering challenges</strong>, including opportunities to compete at national levels. More than just a club, Spectrum is a community of students who build, learn, collaborate, and push each other to see what's possible.
+                  Beyond projects, Spectrum gives students a platform to challenge themselves through competitions, technical events, and real-world engineering challenges, including opportunities to compete at national levels. More than just a club, Spectrum is a community of students who build, learn, collaborate, and push each other to see what's possible.
                 </p>
               </div>
             </motion.div>

@@ -16,11 +16,7 @@ export default function AdminSettings() {
     socialInstagram: '',
     socialLinkedin: '',
     socialYoutube: '',
-    socialGithub: '',
-    aboutDescription: '',
-    aboutStory: '',
-    aboutMission: '',
-    aboutVision: ''
+    socialGithub: ''
   })
   
   const [loading, setLoading] = useState(false)
@@ -105,9 +101,6 @@ export default function AdminSettings() {
         <button onClick={() => setActiveTab('contact')} style={tabStyle(activeTab === 'contact')}>
           <FiPhone size={16} /> Contact Info
         </button>
-        <button onClick={() => setActiveTab('about')} style={tabStyle(activeTab === 'about')}>
-          <FiInfo size={16} /> About Page
-        </button>
       </div>
 
       <div className="card-glass" style={{ padding: '2rem', maxWidth: '700px', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
@@ -183,29 +176,6 @@ export default function AdminSettings() {
             </div>
           </>
         )}
-
-        {/* ABOUT PAGE TAB */}
-        {activeTab === 'about' && (
-          <>
-            <div>
-              <label style={labelStyle}>Hero Description</label>
-              <textarea name="aboutDescription" value={fields.aboutDescription} onChange={handleChange} className="input-dark" rows={4} style={{ resize: 'vertical' }} placeholder="Short introductory paragraph..." />
-            </div>
-            <div>
-              <label style={labelStyle}>Our Story</label>
-              <textarea name="aboutStory" value={fields.aboutStory} onChange={handleChange} className="input-dark" rows={4} style={{ resize: 'vertical' }} />
-            </div>
-            <div>
-              <label style={labelStyle}>Our Mission</label>
-              <textarea name="aboutMission" value={fields.aboutMission} onChange={handleChange} className="input-dark" rows={4} style={{ resize: 'vertical' }} />
-            </div>
-            <div>
-              <label style={labelStyle}>Our Vision</label>
-              <textarea name="aboutVision" value={fields.aboutVision} onChange={handleChange} className="input-dark" rows={4} style={{ resize: 'vertical' }} />
-            </div>
-          </>
-        )}
-
       </div>
     </motion.div>
   )
